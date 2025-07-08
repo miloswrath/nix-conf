@@ -62,18 +62,30 @@
               python.pkgs.venvShellHook
               python.pkgs.pip
 
-              /* Add whatever else you'd like here. */
-              # pkgs.basedpyright
+              # Data manipulation
+              python.pkgs.pandas
+              python.pkgs.numpy
 
-              # pkgs.black
-              /* or */
-              # python.pkgs.black
+              # Visualization
+              python.pkgs.matplotlib
+              python.pkgs.seaborn
+              python.pkgs.plotly
 
-              # pkgs.ruff
-              /* or */
-              # python.pkgs.ruff
+              # API requests
+              python.pkgs.requests
+              python.pkgs.httpx
+
+              # Jupyter/IPython for interactive work
+              python.pkgs.jupyterlab
+              python.pkgs.ipython
+
+              # Scientific computing and YAML
+              python.pkgs.scipy
+              python.pkgs.pyyaml
+              pkgs.git
+
             ];
-          };
+            };
         });
     };
 }

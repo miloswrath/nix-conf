@@ -61,6 +61,19 @@
         TERMINAL = terminal;
       };
 
+      # Configure git here,
+      programs.git = {
+        enable = true;
+        userName = "Zak Gilliam";
+        userEmail = "zak@example.com";
+
+        extraConfig = {
+          init.defaultBranch = "main";
+          pull.rebase = false;
+          color.ui = "auto";
+          core.editor = "nvim";
+        };
+      };      
       # Packages that don't require configuration. If you're looking to configure a program see the /modules dir
       home.packages = with pkgs; [
         # Applications
@@ -87,6 +100,8 @@
   services.devmon.enable = true;
   services.gvfs.enable = true;
   services.udisks2.enable = true;
+  services.resolved.enable = true;
+  services.seatd.enable = true;
 
   services.scx = {
     enable = true;
@@ -97,7 +112,7 @@
   # Bootloader.
   boot = {
     tmp.cleanOnBoot = true;
-    kernelPackages = pkgs.linuxPackages_zen; # _latest, _zen, _xanmod_latest, _hardened, _rt, _OTHER_CHANNEL, etc.
+    kernelPackages = pkgs.linuxPackages_latest; # _latest, _zen, _xanmod_latest, _hardened, _rt, _OTHER_CHANNEL, etc.
     loader = {
       efi.canTouchEfiVariables = true;
       efi.efiSysMountPoint = "/boot";
@@ -160,12 +175,12 @@
   hardware.bluetooth = {
     enable = true;
     powerOnBoot = true;
-    settings.General.Experimental = true;
+    settings.General.Experimental = false;
   };
 
   # Enable networking
   networking = {
-    # hostName = hostname; # Define your hostname.
+    hostName = "zaddy"; # Define your hostname.
     networkmanager.enable = true;
     # wireless.enable = true; # Enables wireless support via wpa_supplicant.
     # Configure network proxy if necessary
