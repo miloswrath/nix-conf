@@ -61,7 +61,13 @@
   environment.systemPackages = with pkgs; [
   ];
 
-  networking.hostName = hostname; # Set hostname defined in flake.nix
+  networking = {
+    hostName = hostname;
+
+    firewall.allowedTCPPorts = [ 445 ];
+
+    networkmanager.wifi.scanRandMacAddress = false;
+  };
 
   # Stream my media to my devices via the network
   services.minidlna = {
