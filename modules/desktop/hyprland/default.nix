@@ -141,8 +141,7 @@
 
             tablet.output = "current";
 
-            sensitivity = 0; # -1.0 - 1.0, 0 means no modification.
-            force_no_accel = true;
+            sensitivity = 0.4; # -1.0 - 1.0, 0 means no modification.
           };
           general = {
             gaps_in = 4;
@@ -504,30 +503,32 @@
         extraConfig = ''
           binds {
             workspace_back_and_forth = 1
-            #allow_workspace_cycles=1
-            #pass_mouse_when_bound=0
           }
 
-          # Easily plug in any monitor
-          monitor=,preferred,auto,1
+          # 1) Internal laptop display (eDP-1) at 1.5×, auto-placed
+          monitor=,preferred,auto,1.5
 
-          # 1080p-HDR monitor on the left, 4K-HDR monitor in the middle and 1080p vertical monitor on the right.
-          monitor=desc:BNQ BenQ EW277HDR 99J01861SL0,preferred,-1920x0,1
-          monitor=desc:BNQ BenQ EL2870U PCK00489SL0,preferred,0x0,2
-          monitor=desc:BNQ BenQ xl2420t 99D06760SL0,preferred,1920x0,1,transform,1 # 5 for fipped
+          # 2) External DP-4 (HP V27i G5, ID 2) → next slot, 1×
+          monitor=desc:HP Inc. HP V27i G5 CNC226124P,preferred,auto,1
 
-          # Binds workspaces to my monitors only (find desc with: hyprctl monitors)
-          workspace=1,monitor:desc:BNQ BenQ EL2870U PCK00489SL0,default:true
-          workspace=2,monitor:desc:BNQ BenQ EL2870U PCK00489SL0
-          workspace=3,monitor:desc:BNQ BenQ EL2870U PCK00489SL0
-          workspace=4,monitor:desc:BNQ BenQ EL2870U PCK00489SL0
-          workspace=5,monitor:desc:BNQ BenQ EW277HDR 99J01861SL0,default:true
-          workspace=6,monitor:desc:BNQ BenQ EW277HDR 99J01861SL0
-          workspace=7,monitor:desc:BNQ BenQ EW277HDR 99J01861SL0
-          workspace=8,monitor:desc:BNQ BenQ xl2420t 99D06760SL0,default:true
-          workspace=9,monitor:desc:BNQ BenQ xl2420t 99D06760SL0
-          workspace=10,monitor:desc:BNQ BenQ EL2870U PCK00489SL0
-        '';
+          # 3) External DP-8 (Dell P2419HC, ID 1) → rightmost, 1×
+          monitor=desc:Dell Inc. DELL P2419HC 3YZ2JQ2,preferred,auto,1
+
+          # —————————————————————————————————————————————
+          # Workspace → monitor bindings
+          workspace=1,monitor:desc:BOE NE135A1M-NY1,default:true
+          workspace=2,monitor:desc:BOE NE135A1M-NY1
+          workspace=3,monitor:desc:BOE NE135A1M-NY1
+          workspace=4,monitor:desc:BOE NE135A1M-NY1
+
+          workspace=5,monitor:desc:HP Inc. HP V27i G5 CNC226124P,default:true
+          workspace=6,monitor:desc:HP Inc. HP V27i G5 CNC226124P
+          workspace=7,monitor:desc:HP Inc. HP V27i G5 CNC226124P
+
+          workspace=8,monitor:desc:Dell Inc. DELL P2419HC 3YZ2JQ2,default:true
+          workspace=9,monitor:desc:Dell Inc. DELL P2419HC 3YZ2JQ2
+          workspace=10,monitor:desc:Dell Inc. DELL P2419HC 3YZ2JQ2
+        '';       
       };
     })
   ];

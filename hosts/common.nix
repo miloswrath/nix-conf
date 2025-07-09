@@ -229,10 +229,18 @@
     };
   };
 
-  services.xserver.enable = true; # Enable the X11 windowing system.
+  services.xserver = {
+    enable = true; # Enable the X11 windowing system.
+  };
 
   # Enable touchpad support (enabled default in most desktopManager).
-  services.libinput.enable = true;
+  services.libinput  = {
+    enable = true;
+    touchpad = {
+      accelSpeed = "0.8";
+   };
+  };
+
 
   # Default shell
   programs.zsh.enable = true;
