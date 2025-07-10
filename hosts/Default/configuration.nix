@@ -64,11 +64,29 @@
   networking = {
     hostName = hostname;
 
-    firewall.allowedTCPPorts = [ 445 ];
+    firewall.allowedTCPPorts = [ 2049 ];  # NFS
+    firewall.allowedUDPPorts = [ 2049 ];
 
     networkmanager.wifi.scanRandMacAddress = false;
   };
+  services.samba = {
+    enable = true;
+    shares = {
+      public = {
+        path = "/srv/shared";
+        browseable = true;
+        "read only" = false;
+        "guest ok" = true;
+      };
+    };
+  };
+  # Enable NFS server
+  services.nfs.server.enable = true;
 
+  # Export your desired directory
+  services.nfs.server.exports = ''
+    /srv/shared 192.168.1.0/24(rw,sync,no_subtree_check,no_root_squash)
+  '';
   # Stream my media to my devices via the network
   services.minidlna = {
     enable = true;

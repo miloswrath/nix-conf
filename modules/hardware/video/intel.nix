@@ -1,4 +1,4 @@
-{pkgs, ...}: {
+{config, pkgs, ...}: {
   nixpkgs.config.packageOverrides = pkgs: {
     vaapiIntel = pkgs.vaapiIntel.override {enableHybridCodec = true;};
   };
@@ -13,6 +13,7 @@
     "i915.enable_dc=2" # Display power saving
     "i915.enable_rc6=7"      # deepest RC6 idle state
     "nvme.noacpi=1" # Helps with NVME power consumption
+    "intel_pstate.ecpp=115"
   ];
 
   # Load the driver
@@ -34,21 +35,7 @@
 
   # Thermal and Noise Management
   services.thermald.enable = true;
-  services.throttled = {
-    enable      = true;
-    # drop in a custom throttled.conf
-    extraConfig = ''
-      [GENERAL]
-      Enabled = True
+  services.throttled.enable = true;
 
-      # Automatically boost HWP under load, revert to balanced when idle
-      HWP_Mode = True
-
-      # Experimental cTDP profiles: normal/up/down
-      CTDP = up
-
-      # minimum C-state to avoid excessive wakeups
-      CStates = 1
-    '';
-  };
 }
+

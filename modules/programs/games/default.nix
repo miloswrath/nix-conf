@@ -18,7 +18,7 @@
     heroic
     # bottles
     # ryujinx
-    # prismlauncher
+    prismlauncher
 
     steam-run
     wineWowPackages.staging
