@@ -43,6 +43,8 @@
     #../../modules/programs/misc/lact # GPU fan, clock and power configuration
     # ../../modules/programs/misc/nix-ld
     # ../../modules/programs/misc/virt-manager
+    ../../modules/programs/misc/calcurse
+    #../../modules/programs/misc/openconnect-sso
   ];
 
   # Home-manager config
@@ -58,8 +60,7 @@
   ];
 
   # Define system packages here
-  environment.systemPackages = with pkgs; [
-  ];
+  environment.systemPackages = with pkgs; [anyconnect];
 
   networking = {
     hostName = hostname;

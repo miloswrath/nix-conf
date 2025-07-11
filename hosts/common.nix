@@ -78,6 +78,7 @@
       home.packages = with pkgs; [
         # Applications
         #kate
+        globalprotect-openconnect
 
         # Terminal
         fzf
@@ -181,7 +182,12 @@
   # Enable networking
   networking = {
     hostName = "zaddy"; # Define your hostname.
-    networkmanager.enable = true;
+    networkmanager = {
+      enable  = true;
+      plugins = with pkgs; [
+        networkmanager-openconnect
+      ];
+    };
     # wireless.enable = true; # Enables wireless support via wpa_supplicant.
     # Configure network proxy if necessary
     # networking.proxy.default = "http://user:password@proxy:port/";
@@ -203,6 +209,7 @@
       ];
     };
   };
+  services.globalprotect.enable = true;
 
   # Setup keyring
   services.gnome.gnome-keyring.enable = true;

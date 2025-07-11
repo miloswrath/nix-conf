@@ -78,7 +78,9 @@
       Default = nixpkgs.lib.nixosSystem {
         system = forAllSystems (system: system);
         specialArgs = {inherit self inputs outputs;} // settings;
-        modules = [./hosts/Default/configuration.nix];
+          modules = [
+            ./hosts/Default/configuration.nix
+          ];
       };
     };
   };
