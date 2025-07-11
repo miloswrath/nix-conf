@@ -17,6 +17,7 @@
       config.allowUnfree = true;
     cisco-anyconnect = (import ./anyconnect.nix) {
       inherit final settings inputs;
+      };
     };
 
   };
