@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-
 # Check for NVIDIA GPU using nvidia-smi
 nvidia_gpu=$(nvidia-smi --query-gpu=gpu_name --format=csv,noheader,nounits 2>/dev/null | head -n 1)
 

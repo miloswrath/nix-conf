@@ -53,10 +53,10 @@
       terminal = "kitty"; # kitty, alacritty, wezterm
       terminalFileManager = "yazi"; # yazi or lf
       sddmTheme = "astronaut"; # astronaut, black_hole, purple_leaves, jake_the_dog, hyprland_kath
-      wallpaper = "kurzgesagt"; # see modules/themes/wallpapers
+      wallpaper = "forest-city"; # see modules/themes/wallpapers
 
       # System configuration
-      videoDriver = "intel"; # CHOOSE YOUR GPU DRIVERS (nvidia, amdgpu or intel)
+      videoDriver = "nvidia"; # CHOOSE YOUR GPU DRIVERS (nvidia, amdgpu or intel)
       hostname = "zaddy"; # CHOOSE A HOSTNAME HERE
       locale = "en_US.UTF-8"; # CHOOSE YOUR LOCALE
       timezone = "America/Chicago"; # CHOOSE YOUR TIMEZONE

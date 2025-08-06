@@ -9,7 +9,7 @@
       CPU_ENERGY_PERF_POLICY_ON_AC = "balance_power";  # vs "balance_performance"
 
       # Hard performance cap: limit turbo bursts
-      CPU_MAX_PERF_ON_AC = 77;  # ~64% reduces heat spikes, still responsive
+      CPU_MAX_PERF_ON_AC = 90;  # ~64% reduces heat spikes, still responsive
       CPU_MIN_PERF_ON_AC = 0;
 
       # On battery: already good

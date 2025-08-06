@@ -12,7 +12,7 @@
             {
               monitor = "";
               color = "rgb(36, 39, 58)";
-              path = "${../../../../themes/wallpapers/dark-forest.jxl}";
+              path = "${../../../../themes/wallpapers/forest-city.jxl}";
 
               new_optimizations = true;
               blur_size = 3;

@@ -65,6 +65,10 @@
         wl-clipboard
         xdotool
         yad
+        wayland-utils
+        wlroots
+        wayland-protocols
+        wl-gammactl
         # socat # for and autowaybar.sh
         # jq # for and autowaybar.sh
       ];
@@ -506,28 +510,8 @@
           }
 
           # 1) Internal laptop display (eDP-1) at 1.5×, auto-placed
-          monitor=,preferred,auto,1.5
+          monitor=,preferred,auto,1.0
 
-          # 2) External DP-4 (HP V27i G5, ID 2) → next slot, 1×
-          monitor=desc:HP Inc. HP V27i G5 CNC226124P,preferred,auto,1
-
-          # 3) External DP-8 (Dell P2419HC, ID 1) → rightmost, 1×
-          monitor=desc:Dell Inc. DELL P2419HC 3YZ2JQ2,preferred,auto,1
-
-          # —————————————————————————————————————————————
-          # Workspace → monitor bindings
-          workspace=1,monitor:desc:BOE NE135A1M-NY1,default:true
-          workspace=2,monitor:desc:BOE NE135A1M-NY1
-          workspace=3,monitor:desc:BOE NE135A1M-NY1
-          workspace=4,monitor:desc:BOE NE135A1M-NY1
-
-          workspace=5,monitor:desc:HP Inc. HP V27i G5 CNC226124P,default:true
-          workspace=6,monitor:desc:HP Inc. HP V27i G5 CNC226124P
-          workspace=7,monitor:desc:HP Inc. HP V27i G5 CNC226124P
-
-          workspace=8,monitor:desc:Dell Inc. DELL P2419HC 3YZ2JQ2,default:true
-          workspace=9,monitor:desc:Dell Inc. DELL P2419HC 3YZ2JQ2
-          workspace=10,monitor:desc:Dell Inc. DELL P2419HC 3YZ2JQ2
         '';       
       };
     })
