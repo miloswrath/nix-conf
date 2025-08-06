@@ -1,4 +1,5 @@
 {
+  lib,
   inputs,
   outputs,
   pkgs,
@@ -17,6 +18,7 @@
     inputs.home-manager.nixosModules.home-manager
     inputs.nix-index-database.nixosModules.nix-index
   ];
+
 
   programs.nix-index-database.comma.enable = true;
 
@@ -64,8 +66,8 @@
       # Configure git here,
       programs.git = {
         enable = true;
-        userName = "Zak Gilliam";
-        userEmail = "zak@example.com";
+        userName = "Zak";
+        userEmail = "zak@zak.com";
 
         extraConfig = {
           init.defaultBranch = "main";
@@ -78,6 +80,7 @@
       home.packages = with pkgs; [
         # Applications
         #kate
+        # netowrking
         globalprotect-openconnect
 
         # Terminal
@@ -217,6 +220,8 @@
   # Enable CUPS to print documents.
   services.printing.enable = true;
 
+  services.fwupd.enable = true; # Enable firmware updates via fwupd
+
   # Enable sound with pipewire.
   services.pulseaudio.enable = false;
   security.rtkit.enable = true;
@@ -261,7 +266,9 @@
     overlays = builtins.attrValues outputs.overlays;
     config = {
       allowUnfree = true;
-      # allowUnfreePredicate = _: true;
+      allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
+       "copilot-language-server"
+     ];
     };
   };
 

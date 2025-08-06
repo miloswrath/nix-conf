@@ -12,7 +12,7 @@
             {
               monitor = "";
               color = "rgb(36, 39, 58)";
-              path = "${../../../../themes/wallpapers/dark-forest.jxl}";
+              path = "${../../../../themes/wallpapers/forest-city.jxl}";
 
               new_optimizations = true;
               blur_size = 3;
@@ -58,16 +58,6 @@
               position = "0, 16";
               valign = "center";
               halign = "center";
-            }
-            {
-              monitor = "";
-              text = "Hello <span text_transform=\"capitalize\" size=\"larger\">$USER!</span>";
-              color = "rgb(198, 160, 246)";
-              font_size = 20;
-              font_family = "JetBrains Mono Nerd Font 10";
-              position = "0, 100";
-              halign = "center";
-              valign = "center";
             }
             {
               monitor = "";
