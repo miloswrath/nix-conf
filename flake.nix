@@ -13,7 +13,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nixvim = {
-      url = "github:Sly-Harvey/nixvim";
+      url = "github:miloswrath/nixvim-but-worse";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     spicetify-nix = {

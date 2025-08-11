@@ -509,9 +509,22 @@
             workspace_back_and_forth = 1
           }
 
-          # 1) Internal laptop display (eDP-1) at 1.5×, auto-placed
-          monitor=,preferred,auto,1.0
+          # 1) Monitors: DP-6 on the left, HDMI-A-2 on the right
+          monitor=DP-5,1920x1080@60.00,0x0,1        # DP-5 at 0×0, scale 1 :contentReference[oaicite:0]{index=0}
+          monitor=HDMI-A-2,1920x1080@60.00,1920x0,1 # HDMI-A-2 at 1920×0, scale 1 :contentReference[oaicite:1]{index=1}
 
+          # 2) Odd workspaces → DP-6
+          workspace=1,monitor:DP-5
+          workspace=3,monitor:DP-5
+          workspace=5,monitor:DP-5
+          workspace=7,monitor:DP-5
+          workspace=9,monitor:DP-5
+
+          # 3) Even workspaces → HDMI-A-2
+          workspace=2,monitor:HDMI-A-2
+          workspace=4,monitor:HDMI-A-2
+          workspace=6,monitor:HDMI-A-2
+          workspace=8,monitor:HDMI-A-2
         '';       
       };
     })

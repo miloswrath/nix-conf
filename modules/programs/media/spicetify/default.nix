@@ -30,13 +30,13 @@
           # fullAppDisplay
           # hidePodcasts
         ];
-        # enabledCustomApps = with spicePkgs.apps; [
+        enabledCustomApps = with spicePkgs.apps; [
         #   reddit
         #   lyricsPlus
         #   marketplace
         #   localFiles
-        #   ncsVisualizer
-        # ];
+          ncsVisualizer
+        ];
       };
     })
   ];

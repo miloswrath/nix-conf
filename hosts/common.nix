@@ -79,6 +79,7 @@
         # Applications
         #kate
         globalprotect-openconnect
+        openrgb
 
         # Terminal
         fzf
@@ -109,6 +110,10 @@
     package = pkgs.scx.rustscheds;
     scheduler = "scx_lavd"; # https://github.com/sched-ext/scx/blob/main/scheds/rust/README.md
   };
+
+  # manage openrgb
+  services.hardware.openrgb.enable = true;
+
 
   # Bootloader.
   boot = {
@@ -233,6 +238,14 @@
         '')
       ];
     };
+    extraConfig.pipewire."92-low-latency" = {
+      "context.properties" = {
+      "default.clock.rate" = 48000;
+      "default.clock.quantum" = 3000;
+      "default.clock.min-quantum" = 3000;
+      "default.clock.max-quantum" = 3000;
+      };
+    };
   };
 
   services.xserver = {
@@ -261,7 +274,7 @@
     overlays = builtins.attrValues outputs.overlays;
     config = {
       allowUnfree = true;
-      # allowUnfreePredicate = _: true;
+      allowUnfreePredicate = _: true;
     };
   };
 
