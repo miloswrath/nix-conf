@@ -178,7 +178,7 @@
         shellAliases = {
           cls = "clear";
           cnlss = "sudo mount -t cifs //itf-rs-store24.hpc.uiowa.edu/vosslabhpc /mnt/lss -o credentials=/etc/lss-creds,uid=$(id -u),gid=$(id -g),file_mode=0644,dir_mode=0755,noperm";
-          cnrdss = "kinit zjgilliaam@IOWA.UIOWA.EDU && sudo mount -t cifs //iowa.uiowa.edu/shared/researchdata/rdss_mwvoss /mnt/rdss -o user=zjgilliam,uid=1000,gid=100,vers=1.0,sec=krb5,cruid=1000,vers=3.0";
+          cnrdss = "kinit zjgilliam@IOWA.UIOWA.EDU && sudo mount -t cifs //iowa.uiowa.edu/shared/researchdata/rdss_mwvoss /mnt/rdss -o user=zjgilliam,uid=1000,gid=100,vers=1.0,sec=krb5,cruid=1000,vers=3.0";
           vosslnx = "ssh -o PubkeyAuthentication=no -o PasswordAuthentication=yes -o IdentitiesOnly=yes -o IdentityAgent=none zjgilliam@vosslab.psychology.uiowa.edu";
           argon = "ssh -o PubkeyAuthentication=no -o PasswordAuthentication=yes -o IdentitiesOnly=yes -o IdentityAgent=none zjgilliam@argon.hpc.uiowa.edu";
           tml = "tmux list-sessions";
@@ -212,7 +212,7 @@
           # Directory Shortcuts.
           dots = "cd ~/NixOS/";
           games = "cd /mnt/games/";
-          work = "cd /mnt/work/";
+          work = "cd /home/zak/work/";
           media = "cd /mnt/work/media/";
           projects = "cd /mnt/work/Projects/";
           proj = "cd /mnt/work/Projects/";

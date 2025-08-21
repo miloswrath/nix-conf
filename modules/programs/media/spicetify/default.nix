@@ -35,7 +35,7 @@
         #   lyricsPlus
         #   marketplace
         #   localFiles
-          ncsVisualizer
+        #   ncsVisualizer
         ];
       };
     })
