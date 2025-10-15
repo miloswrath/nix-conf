@@ -1,7 +1,9 @@
 {pkgs, ...}: {
   home-manager.sharedModules = [
     (_: {
-      home.packages = with pkgs; [calcurse];
+      home.packages = with pkgs; [
+        stremio
+      ];
     })
   ];
 }

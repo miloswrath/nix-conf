@@ -18,6 +18,7 @@
       # configure spicetify :)
       programs.spicetify = {
         enable = true;
+        wayland=true;
         theme = spicePkgs.themes.catppuccin;
         colorScheme = "mocha";
         enabledExtensions = with spicePkgs.extensions; [
@@ -25,18 +26,18 @@
           shuffle # shuffle+ (special characters are sanitized out of ext names)
           keyboardShortcut # vimium-like navigation
           copyLyrics # copy lyrics with selection
+          fullAppDisplay
           # autoVolume
           # showQueueDuration
-          # fullAppDisplay
           # hidePodcasts
         ];
-        # enabledCustomApps = with spicePkgs.apps; [
+        enabledCustomApps = with spicePkgs.apps; [
+        lyricsPlus
+        ncsVisualizer
         #   reddit
-        #   lyricsPlus
         #   marketplace
         #   localFiles
-        #   ncsVisualizer
-        # ];
+        ];
       };
     })
   ];

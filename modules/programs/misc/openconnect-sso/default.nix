@@ -1,8 +1,7 @@
-{ pkgs, ... }: {
+{pkgs, ...}: {
   home-manager.sharedModules = [
-    ({ pkgs, ... }: {
-      home.packages = with pkgs; [ openconnect ];
+    ({pkgs, ...}: {
+      home.packages = with pkgs; [openconnect];
     })
   ];
 }
-

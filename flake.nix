@@ -13,7 +13,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nixvim = {
-      url = "github:Sly-Harvey/nixvim";
+      url = "github:miloswrath/nixvim-but-worse";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     spicetify-nix = {
@@ -52,8 +52,8 @@
       browser = "zen"; # firefox, floorp, zen
       terminal = "kitty"; # kitty, alacritty, wezterm
       terminalFileManager = "yazi"; # yazi or lf
-      sddmTheme = "astronaut"; # astronaut, black_hole, purple_leaves, jake_the_dog, hyprland_kath
-      wallpaper = "kurzgesagt"; # see modules/themes/wallpapers
+      sddmTheme = "black_hole"; # astronaut, black_hole, purple_leaves, jake_the_dog, hyprland_kath
+      wallpaper = "forest-city"; # see modules/themes/wallpapers
 
       # System configuration
       videoDriver = "intel"; # CHOOSE YOUR GPU DRIVERS (nvidia, amdgpu or intel)
@@ -67,20 +67,20 @@
 
     systems = [
       "x86_64-linux"
-      "aarch64-linux"
     ];
     forAllSystems = nixpkgs.lib.genAttrs systems;
   in {
     templates = import ./dev-shells;
     overlays = import ./overlays {inherit inputs settings;};
+
     formatter = forAllSystems (system: nixpkgs.legacyPackages.${system}.alejandra);
     nixosConfigurations = {
       Default = nixpkgs.lib.nixosSystem {
         system = forAllSystems (system: system);
         specialArgs = {inherit self inputs outputs;} // settings;
-          modules = [
-            ./hosts/Default/configuration.nix
-          ];
+        modules = [
+          ./hosts/Default/configuration.nix
+        ];
       };
     };
   };

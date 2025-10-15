@@ -6,7 +6,7 @@
     enable = true;
     desktopManager.gnome.enable = true;
     #layout = "gb";
-    libinput = { mouse.accelSpeed = "0.7"; };
+    libinput = {mouse.accelSpeed = "0.7";};
   };
   services.gnome.gnome-initial-setup.enable = false;
   services.gnome.games.enable = true;

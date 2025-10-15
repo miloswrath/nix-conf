@@ -19,7 +19,6 @@
     inputs.nix-index-database.nixosModules.nix-index
   ];
 
-
   programs.nix-index-database.comma.enable = true;
 
   users.users.${username} = {
@@ -48,7 +47,7 @@
       xdg.enable = true;
       xdg.portal = {
         enable = true;
-        extraPortals = with pkgs; [ xdg-desktop-portal-hyprland xdg-desktop-portal-gtk ];
+        extraPortals = with pkgs; [xdg-desktop-portal-hyprland xdg-desktop-portal-gtk];
         xdgOpenUsePortal = true;
       };
       home.username = username;
@@ -66,8 +65,8 @@
       # Configure git here,
       programs.git = {
         enable = true;
-        userName = "Zak";
-        userEmail = "zak@zak.com";
+        userName = "miloswrath";
+        userEmail = "zakgilliam@zak.com";
 
         extraConfig = {
           init.defaultBranch = "main";
@@ -75,13 +74,13 @@
           color.ui = "auto";
           core.editor = "nvim";
         };
-      };      
+      };
       # Packages that don't require configuration. If you're looking to configure a program see the /modules dir
       home.packages = with pkgs; [
         # Applications
+        zotero # note taking and reference management
         #kate
         # netowrking
-        globalprotect-openconnect
 
         # Terminal
         fzf
@@ -95,6 +94,11 @@
         ripgrep
         tldr
         unzip
+
+        # development software
+        #rstudio # for school FUCK R ITS SO FUCKING STUPID 
+        awscli # for school
+        mysql-workbench # for school
       ];
     };
   };
@@ -111,6 +115,29 @@
     enable = true;
     package = pkgs.scx.rustscheds;
     scheduler = "scx_lavd"; # https://github.com/sched-ext/scx/blob/main/scheds/rust/README.md
+  };
+
+  services.mysql = {
+    enable = true;
+    package = pkgs.mariadb;
+    dataDir = "/var/lib/mysql";
+    # Ensure socket authentication for root
+    initialScript = pkgs.writeText "init.sql" ''
+      ALTER USER 'root'@'localhost' IDENTIFIED WITH unix_socket;
+      FLUSH PRIVILEGES;
+    '';
+  };
+  systemd.services.mysql.wantedBy = [];
+  systemd.services.mysql.serviceConfig.ExecStartPre = [
+    "${pkgs.coreutils}/bin/mkdir -p /var/lib/mysql"
+    "${pkgs.coreutils}/bin/chown mysql:mysql /var/lib/mysql"
+    "${pkgs.coreutils}/bin/mkdir -p /run/mysqld"
+    "${pkgs.coreutils}/bin/chown mysql:mysql /run/mysqld"
+    "${pkgs.coreutils}/bin/chmod 755 /run/mysqld"
+  ];
+  users.users.mysql = {
+    home = "/var/lib/mysql-home";
+    createHome = true;
   };
 
   # Bootloader.
@@ -141,6 +168,9 @@
         };
       };
     };
+    extraModprobeConfig = ''
+      options snd_hda_intel power_save=1 power_save_controller=Y
+    '';
   };
 
   # Timezone and locale
@@ -186,10 +216,7 @@
   networking = {
     hostName = "zaddy"; # Define your hostname.
     networkmanager = {
-      enable  = true;
-      plugins = with pkgs; [
-        networkmanager-openconnect
-      ];
+      enable = true;
     };
     # wireless.enable = true; # Enables wireless support via wpa_supplicant.
     # Configure network proxy if necessary
@@ -212,7 +239,6 @@
       ];
     };
   };
-  
 
   # Setup keyring
   services.gnome.gnome-keyring.enable = true;
@@ -221,7 +247,16 @@
   services.printing.enable = true;
 
   services.fwupd.enable = true; # Enable firmware updates via fwupd
-
+  services.fprintd.enable = lib.mkDefault true;
+  # we need fwupd 1.9.7 to downgrade the fingerprint sensor firmware
+  services.fwupd.package =
+    (import (builtins.fetchTarball {
+        url = "https://github.com/NixOS/nixpkgs/archive/bb2009ca185d97813e75736c2b8d1d8bb81bde05.tar.gz";
+        sha256 = "sha256:003qcrsq5g5lggfrpq31gcvj82lb065xvr7bpfa8ddsw8x4dnysk";
+      })
+      {
+        inherit (pkgs) system;
+      }).fwupd;
   # Enable sound with pipewire.
   services.pulseaudio.enable = false;
   security.rtkit.enable = true;
@@ -230,8 +265,21 @@
     alsa.enable = true;
     alsa.support32Bit = true;
     pulse.enable = true;
+
+    extraConfig.pipewire."92-low-latency" = {
+      "context.properties" = {
+        "default.clock.rate" = 48000;
+        # Increase from 32 → 128 (or try 256 if needed)
+        "default.clock.quantum" = 256;
+        "default.clock.min-quantum" = 256;
+        "default.clock.max-quantum" = 256;
+        # Optional: prevent rate switching
+        #"default.clock.allowed-rates" = [ 48000 ];
+      };
+    };
     wireplumber = {
       enable = true;
+
       configPackages = [
         (pkgs.writeTextDir "share/wireplumber/wireplumber.conf.d/11-bluetooth-policy.conf" ''
           bluetooth.autoswitch-to-headset-profile = false
@@ -245,30 +293,30 @@
   };
 
   # Enable touchpad support (enabled default in most desktopManager).
-  services.libinput  = {
+  services.libinput = {
     enable = true;
     touchpad = {
       accelSpeed = "0.8";
-   };
+    };
   };
-
 
   # Default shell
   programs.zsh.enable = true;
+  programs.nix-ld.enable = true;
   users.defaultUserShell = pkgs.zsh;
 
   fonts.packages = with pkgs.nerd-fonts; [
     jetbrains-mono
     fira-code
   ];
-
   nixpkgs = {
     overlays = builtins.attrValues outputs.overlays;
     config = {
       allowUnfree = true;
-      allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
-       "copilot-language-server"
-     ];
+      allowUnfreePredicate = pkg:
+        builtins.elem (lib.getName pkg) [
+          "copilot-language-server"
+        ];
     };
   };
 

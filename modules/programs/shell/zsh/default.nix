@@ -167,7 +167,7 @@
           export XMONAD_CACHE_DIR="''${XDG_CACHE_HOME:-$HOME/.cache}/xmonad"
 
           export FZF_DEFAULT_OPTS=" \
-          --color=bg+:#363a4f,bg:#24273a,spinner:#f4dbd6,hl:#ed8796 
+          --color=bg+:#363a4f,bg:#24273a,spinner:#f4dbd6,hl:#ed8796
           --color=fg:#cad3f5,header:#ed8796,info:#c6a0f6,pointer:#f4dbd6 \
           --color=marker:#f4dbd6,fg+:#cad3f5,prompt:#c6a0f6,hl+:#ed8796"
         '';
@@ -177,7 +177,8 @@
         };
         shellAliases = {
           cls = "clear";
-          cnlss = "sudo mount -t cifs //itf-rs-store24.hpc.uiowa.edu/vosslabhpc /mnt/lss -o credentials=/etc/lss-creds"; 
+          cnlss = "sudo mount -t cifs //itf-rs-store24.hpc.uiowa.edu/vosslabhpc /mnt/lss -o credentials=/etc/lss-creds,uid=$(id -u),gid=$(id -g),file_mode=0644,dir_mode=0755,noperm";
+          cnrdss = "sudo mount -t cifs //iowa.uiowa.edu/shared/researchdata/rdss_mwvoss /mnt/rdss -o user=zjgilliam,uid=1000,gid=100,vers=1.0,sec=krb5,cruid=1000,vers=3.0";
           vosslnx = "ssh -o PubkeyAuthentication=no -o PasswordAuthentication=yes -o IdentitiesOnly=yes -o IdentityAgent=none zjgilliam@vosslab.psychology.uiowa.edu";
           argon = "ssh -o PubkeyAuthentication=no -o PasswordAuthentication=yes -o IdentitiesOnly=yes -o IdentityAgent=none zjgilliam@argon.hpc.uiowa.edu";
           tml = "tmux list-sessions";
@@ -199,7 +200,6 @@
           tp = "${pkgs.trash-cli}/bin/trash-put";
           tpr = "${pkgs.trash-cli}/bin/trash-restore";
           grep = "grep --color=always";
-          pokemon = "pokego --random 1-8 --no-title";
 
           # Nixos
           list-gens = "sudo nix-env --list-generations --profile /nix/var/nix/profiles/system/";
@@ -211,11 +211,8 @@
           # Directory Shortcuts.
           dots = "cd ~/NixOS/";
           games = "cd /mnt/games/";
-          work = "cd /mnt/work/";
-          media = "cd /mnt/work/media/";
-          projects = "cd /mnt/work/Projects/";
-          proj = "cd /mnt/work/Projects/";
-          dev = "cd /mnt/work/Projects/";
+          work = "cd /home/zak/work/";
+          school = "cd /home/zak/school/";
           # dev = "cd /mnt/work/dev/";
           # nixdir = "cd /mnt/work/dev/nix/";
           # cppdir = "cd /mnt/work/dev/C++/";

@@ -3,13 +3,13 @@
     enable = true;
     settings = {
       # More thermal-aware governor
-      CPU_SCALING_GOVERNOR_ON_AC = "schedutil";
+      CPU_SCALING_GOVERNOR_ON_AC = "powersave";
 
       # More energy-efficient policy under load
-      CPU_ENERGY_PERF_POLICY_ON_AC = "balance_power";  # vs "balance_performance"
+      CPU_ENERGY_PERF_POLICY_ON_AC = "power"; # vs "balance_performance"
 
       # Hard performance cap: limit turbo bursts
-      CPU_MAX_PERF_ON_AC = 77;  # ~64% reduces heat spikes, still responsive
+      CPU_MAX_PERF_ON_AC = 77; # ~64% reduces heat spikes, still responsive
       CPU_MIN_PERF_ON_AC = 0;
 
       # On battery: already good
@@ -23,6 +23,11 @@
       STOP_CHARGE_THRESH_BAT0 = 95;
       START_CHARGE_THRESH_BAT1 = 82;
       STOP_CHARGE_THRESH_BAT1 = 95;
+
+      SOUND_POWER_SAVE = 1;
+
+      RUNTIME_PM_ON_AC = "auto";
+      RUNTIME_PM_ON_BAT = "auto";
     };
   };
 }

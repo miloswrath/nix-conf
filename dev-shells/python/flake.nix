@@ -3,89 +3,84 @@
 
   inputs.nixpkgs.url = "https://flakehub.com/f/NixOS/nixpkgs/0.1.*.tar.gz";
 
-  outputs = { self, nixpkgs }:
-    let
-      supportedSystems = [ "x86_64-linux" "aarch64-linux" "x86_64-darwin" "aarch64-darwin" ];
-      forEachSupportedSystem = f: nixpkgs.lib.genAttrs supportedSystems (system: f {
-        pkgs = import nixpkgs { inherit system; };
-      });
-
-      /*
-       * Change this value ({major}.{min}) to
-       * update the Python virtual-environment
-       * version. When you do this, make sure
-       * to delete the `.venv` directory to
-       * have the hook rebuild it for the new
-       * version, since it won't overwrite an
-       * existing one. After this, reload the
-       * development shell to rebuild it.
-       * You'll see a warning asking you to
-       * do this when version mismatches are
-       * present. For safety, removal should
-       * be a manual step, even if trivial.
-       */
-      version = "3.13";
-    in
-    {
-      devShells = forEachSupportedSystem ({ pkgs }:
-        let
-          concatMajorMinor = v:
-            pkgs.lib.pipe v [
-              pkgs.lib.versions.splitVersion
-              (pkgs.lib.sublist 0 2)
-              pkgs.lib.concatStrings
-            ];
-
-          python = pkgs."python${concatMajorMinor version}";
-        in
-        {
-          default = pkgs.mkShellNoCC {
-            venvDir = ".venv";
-
-            postShellHook = ''
-              venvVersionWarn() {
-              	local venvVersion
-              	venvVersion="$("$venvDir/bin/python" -c 'import platform; print(platform.python_version())')"
-
-              	[[ "$venvVersion" == "${python.version}" ]] && return
-
-              	cat <<EOF
-              Warning: Python version mismatch: [$venvVersion (venv)] != [${python.version}]
-                       Delete '$venvDir' and reload to rebuild for version ${python.version}
-              EOF
-              }
-
-              venvVersionWarn
-            '';
-
-            packages = [
-              python.pkgs.venvShellHook
-              python.pkgs.pip
-
-              # Data manipulation
-              python.pkgs.pandas
-              python.pkgs.numpy
-
-              # Visualization
-              python.pkgs.matplotlib
-              python.pkgs.seaborn
-              python.pkgs.plotly
-
-              # API requests
-              python.pkgs.requests
-              python.pkgs.httpx
-
-              # Jupyter/IPython for interactive work
-              python.pkgs.jupyterlab
-              python.pkgs.ipython
-
-              # Scientific computing and YAML
-              python.pkgs.scipy
-              python.pkgs.pyyaml
-              pkgs.git
-
-            ];
-            };
+  outputs = {
+    self,
+    nixpkgs,
+  }: let
+    supportedSystems = ["x86_64-linux" "aarch64-linux" "x86_64-darwin" "aarch64-darwin"];
+    forEachSupportedSystem = f:
+      nixpkgs.lib.genAttrs supportedSystems (system:
+        f {
+          pkgs = import nixpkgs {inherit system;};
         });
-    };
+
+    version = "3.13";
+  in {
+    devShells = forEachSupportedSystem ({pkgs}: let
+      concatMajorMinor = v:
+        pkgs.lib.pipe v [
+          pkgs.lib.versions.splitVersion
+          (pkgs.lib.sublist 0 2)
+          pkgs.lib.concatStrings
+        ];
+
+      python = pkgs."python${concatMajorMinor version}";
+
+      catppuccin-jupyterlab = python.pkgs.buildPythonPackage rec {
+        pname = "catppuccin_jupyterlab";
+        version = "0.2.4";
+        format = "wheel";
+
+        src = pkgs.fetchPypi {
+          inherit pname version;
+          format = "wheel";
+          python = "py3";
+          dist = "py3";
+          abi = "none";
+          platform = "any";
+          # sha256 (SRI) or base32 works:
+          hash = "sha256-ZDg5scRuk+SXvrledB1A3VhfxOSJpEwsbOiahpqc72c="; # <-- SRI works if you use 'hash'
+        };
+
+        doCheck = false;
+      };
+      # One unified Python environment for both Lab (frontend) and the theme
+      pythonEnv = python.withPackages (
+        ps:
+          [
+            ps.jupyterlab
+            ps.ipykernel
+            ps.pandas
+            ps.numpy
+            ps.matplotlib
+            ps.seaborn
+            ps.plotly
+            ps.requests
+            ps.httpx
+            ps.scipy
+            ps.pyyaml
+          ]
+          # ++ [catppuccin-jupyterlab] # include the theme here
+      );
+    in {
+      default = pkgs.mkShellNoCC {
+        # IMPORTANT: do NOT activate a venv here; it will shadow pythonEnv
+        packages = [
+          pythonEnv
+          pkgs.git
+        ];
+
+        # Optional: install a kernel spec matching this env
+        postShellHook = ''
+          KERNEL_NAME="jl-313"
+          KERNEL_DIR="$HOME/.local/share/jupyter/kernels/$KERNEL_NAME"
+          if [ ! -d "$KERNEL_DIR" ]; then
+            python -m ipykernel install --user \
+              --name "$KERNEL_NAME" \
+              --display-name "Python 3.13 (flake)" >/dev/null
+          fi
+        '';
+      };
+    });
+  };
 }

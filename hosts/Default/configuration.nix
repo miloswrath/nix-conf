@@ -25,6 +25,7 @@
     ../../modules/programs/terminal/${terminal} # Set terminal defined in flake.nix
 
     ../../modules/programs/editor/${editor} # Set editor defined in flake.nix
+    ../../modules/programs/editor/libre
     ../../modules/programs/cli/${terminalFileManager} # Set file-manager defined in flake.nix
     ../../modules/programs/cli/starship
     ../../modules/programs/cli/tmux
@@ -32,10 +33,12 @@
     ../../modules/programs/cli/lazygit
     ../../modules/programs/cli/cava
     ../../modules/programs/cli/btop
+    ../../modules/programs/cli/codex
     ../../modules/programs/shell/bash
     ../../modules/programs/shell/zsh
     ../../modules/programs/media/discord
     ../../modules/programs/media/spicetify
+    #../../modules/programs/media/stremio
     # ../../modules/programs/media/youtube-music
     # ../../modules/programs/media/thunderbird
     # ../../modules/programs/media/obs-studio
@@ -46,6 +49,7 @@
     # ../../modules/programs/misc/nix-ld
     # ../../modules/programs/misc/virt-manager
     ../../modules/programs/misc/calcurse
+    #../../modules/programs/misc/rstudio
     #../../modules/programs/misc/openconnect-sso
   ];
 
@@ -64,10 +68,10 @@
   ];
   # Define system packages here
   environment.systemPackages = with pkgs; [
-      krb5
-      cifs-utils
-      keyutils
-      samba
+    krb5
+    cifs-utils
+    keyutils
+    samba
   ];
   system.activationScripts.symlink-requestkey = ''
     if [ ! -d /sbin ]; then
@@ -76,7 +80,7 @@
     ln -sfn /run/current-system/sw/bin/request-key /sbin/request-key
   '';
   # request-key expects a configuration file under /etc
-  environment.etc."request-key.conf" = lib.mkForce{
+  environment.etc."request-key.conf" = lib.mkForce {
     text = let
       upcall = "${pkgs.cifs-utils}/bin/cifs.upcall";
       keyctl = "${pkgs.keyutils}/bin/keyctl";
@@ -100,8 +104,8 @@
   networking = {
     hostName = hostname;
 
-    firewall.allowedTCPPorts = [ 2049 ];  # NFS
-    firewall.allowedUDPPorts = [ 2049 ];
+    firewall.allowedTCPPorts = [2049 3306]; # NFS
+    firewall.allowedUDPPorts = [2049];
 
     networkmanager.wifi.scanRandMacAddress = false;
   };

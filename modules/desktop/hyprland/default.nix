@@ -109,6 +109,7 @@
             "QT_AUTO_SCREEN_SCALE_FACTOR,1"
             "WLR_RENDERER_ALLOW_SOFTWARE,1"
             "NIXPKGS_ALLOW_UNFREE,1"
+            "AQ_DRM_DEVICES,/dev/dri/card1"
           ];
           exec-once = [
             #"[workspace 1 silent] ${terminal}"
@@ -213,9 +214,7 @@
             ];
           };
           render = {
-            explicit_sync = 2; # 0 = off, 1 = on, 2 = auto based on gpu driver.
-            explicit_sync_kms = 2; # 0 = off, 1 = on, 2 = auto based on gpu driver.
-            direct_scanout = 2; # 0 = off, 1 = on, 2 = auto (on with content type ‘game’) 
+            direct_scanout = 2; # 0 = off, 1 = on, 2 = auto (on with content type ‘game’)
           };
           ecosystem = {
             no_update_news = true;
@@ -230,10 +229,7 @@
             vrr = 1; # enable variable refresh rate (0=off, 1=on, 2=fullscreen only)
           };
           xwayland.force_zero_scaling = false;
-          gestures = {
-            workspace_swipe = true;
-            workspace_swipe_fingers = 3;
-          };
+          gesture = "3, horizontal, workspace,";
           dwindle = {
             pseudotile = true;
             preserve_split = true;
@@ -505,8 +501,11 @@
             workspace_back_and_forth = 1
           }
 
+          # 0) Default monitor → leftmost, 1×
+          monitor=,preferred,auto,1
+
           # 1) Internal laptop display (eDP-1) at 1.5×, auto-placed
-          monitor=,preferred,auto,1.5
+          monitor=desc:BOE NE135A1M-NY1,2880x1920@120,auto,1.5
 
           # 2) External DP-4 (HP V27i G5, ID 2) → next slot, 1×
           monitor=desc:HP Inc. HP V27i G5 CNC226124P,preferred,auto,1
@@ -528,7 +527,7 @@
           workspace=8,monitor:desc:Dell Inc. DELL P2419HC 3YZ2JQ2,default:true
           workspace=9,monitor:desc:Dell Inc. DELL P2419HC 3YZ2JQ2
           workspace=10,monitor:desc:Dell Inc. DELL P2419HC 3YZ2JQ2
-        '';       
+        '';
       };
     })
   ];
