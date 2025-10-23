@@ -328,7 +328,7 @@
     XDG_CONFIG_HOME = "$HOME/.config";
     XDG_DATA_HOME = "$HOME/.local/share";
     XDG_BIN_HOME = "$HOME/.local/bin";
-
+    SSH_AUTH_SOCK = "/run/user/$UID/gnupg/S.gpg-agent.ssh";
     templates = "${self}/dev-shells";
   };
 
