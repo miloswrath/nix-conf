@@ -65,14 +65,14 @@
       # Configure git here,
       programs.git = {
         enable = true;
-        userName = "miloswrath";
-        userEmail = "zakgilliam@zak.com";
 
-        extraConfig = {
+        settings = {
           init.defaultBranch = "main";
           pull.rebase = false;
           color.ui = "auto";
           core.editor = "nvim";
+          user.name = "miloswrath";
+          user.email = "zakgilliam@gmail.com";
         };
       };
       # Packages that don't require configuration. If you're looking to configure a program see the /modules dir
