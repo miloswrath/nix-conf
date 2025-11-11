@@ -1,4 +1,4 @@
-{pkgs, ...}: {
+{pkgs, lib, ...}: {
   fonts.packages = with pkgs.nerd-fonts; [jetbrains-mono];
   home-manager.sharedModules = [
     (_: {
@@ -10,10 +10,10 @@
         };
         themeFile = "Catppuccin-Mocha";
         settings = {
-          # shell = "${getExe pkgs.tmux}";
-          # cursor_trail = 3; # Fancy cursor movements (especially in nixvim)
-          # cursor_trail_decay = "0.08 0.3"; # Animation speed
-          # cursor_trail_start_threshold = "4";
+          shell = "${lib.getExe pkgs.tmux}";
+          cursor_trail = 3; # Fancy cursor movements (especially in nixvim)
+          cursor_trail_decay = "0.08 0.3"; # Animation speed
+          cursor_trail_start_threshold = "4";
           strip_trailing_spaces = "smart";
           macos_option_as_alt = "yes";
           macos_quit_when_last_window_closed = true;

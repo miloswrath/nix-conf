@@ -201,6 +201,10 @@
           tpr = "${pkgs.trash-cli}/bin/trash-restore";
           grep = "grep --color=always";
           pokemon = "pokego --random 1-8 --no-title";
+          # docker
+          dk = "docker";
+          dku = "docker compose up -d";
+          dkd = "docker compose down";
 
           # Nixos
           list-gens = "sudo nix-env --list-generations --profile /nix/var/nix/profiles/system/";

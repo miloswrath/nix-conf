@@ -27,15 +27,15 @@
           copyLyrics # copy lyrics with selection
           # autoVolume
           # showQueueDuration
-          # fullAppDisplay
+          fullAppDisplay
           # hidePodcasts
         ];
         enabledCustomApps = with spicePkgs.apps; [
         #   reddit
-        #   lyricsPlus
+        lyricsPlus
         #   marketplace
         #   localFiles
-        #   ncsVisualizer
+        ncsVisualizer
         ];
       };
     })

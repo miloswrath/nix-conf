@@ -52,7 +52,7 @@
       browser = "zen"; # firefox, floorp, zen
       terminal = "kitty"; # kitty, alacritty, wezterm
       terminalFileManager = "yazi"; # yazi or lf
-      sddmTheme = "astronaut"; # astronaut, black_hole, purple_leaves, jake_the_dog, hyprland_kath
+      sddmTheme = "hyprland_kath"; # astronaut, black_hole, purple_leaves, jake_the_dog, hyprland_kath
       wallpaper = "forest-city"; # see modules/themes/wallpapers
 
       # System configuration

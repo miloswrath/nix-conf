@@ -11,7 +11,8 @@ in {
     GBM_BACKEND = "nvidia-drm";
     WLR_NO_HARDWARE_CURSORS = "1";
     LIBVA_DRIVER_NAME = "nvidia";
-    VDPAU_DRIVER = "va_gl";
+    #VDPAU_DRIVER = "va_gl";
+    VDPAU_DRIVER = "nvidia";
     __GLX_VENDOR_LIBRARY_NAME = "nvidia";
     # MOZ_DISABLE_RDD_SANDBOX = 1; # Potential security risk
 
@@ -31,10 +32,12 @@ in {
       open = true;
       # nvidiaPersistenced = true;
       nvidiaSettings = true;
-      powerManagement.enable = true; # This can cause sleep/suspend to fail.
+      #powerManagement.enable = true; # This can cause sleep/suspend to fail.
+      powerManagement.enable = false; # This can cause sleep/suspend to fail.
       modesetting.enable = true;
-      #package = nvidiaDriverChannel;
-      package = pkgs.linuxPackages_latest.nvidiaPackages.latest;
+      package = nvidiaDriverChannel;
+      #package = pkgs.linuxPackages_latest.nvidiaPackages.latest;
+      
     };
     graphics = {
       enable = true;
@@ -43,7 +46,7 @@ in {
       enable32Bit = true;
       extraPackages = with pkgs; [
         nvidia-vaapi-driver
-        vaapiVdpau
+        libva-vdpau-driver
         libvdpau-va-gl
         egl-wayland
       ];

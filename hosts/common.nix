@@ -64,10 +64,10 @@
       # Configure git here,
       programs.git = {
         enable = true;
-        userName = "Zak Gilliam";
-        userEmail = "zak@example.com";
+        settings = {
+          user.name = "Zak Gilliam";
+          user.email = "zakgilliam@gmail.com";
 
-        extraConfig = {
           init.defaultBranch = "main";
           pull.rebase = false;
           color.ui = "auto";
@@ -78,7 +78,6 @@
       home.packages = with pkgs; [
         # Applications
         #kate
-        globalprotect-openconnect
         openrgb
 
         # Terminal
@@ -256,7 +255,7 @@
   services.libinput  = {
     enable = true;
     touchpad = {
-      accelSpeed = "0.8";
+      accelSpeed = "0.4";
    };
   };
 
@@ -265,6 +264,7 @@
   programs.zsh.enable = true;
   users.defaultUserShell = pkgs.zsh;
 
+  fonts.fontconfig.enable = true;
   fonts.packages = with pkgs.nerd-fonts; [
     jetbrains-mono
     fira-code
