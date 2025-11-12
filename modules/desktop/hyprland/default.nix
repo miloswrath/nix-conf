@@ -505,13 +505,13 @@
           monitor=,preferred,auto,1
 
           # 1) Internal laptop display (eDP-1) at 1.5×, auto-placed
-          monitor=desc:BOE NE135A1M-NY1,2880x1920@120,auto,1.5
+          monitor=desc:BOE NE135A1M-NY1,2880x1920@120,auto,1.25
 
           # 2) External DP-4 (HP V27i G5, ID 2) → next slot, 1×
-          monitor=desc:HP Inc. HP V27i G5 CNC226124P,preferred,auto,1
+          monitor=desc:DP-6,1920x1080@75,auto,1
 
           # 3) External DP-8 (Dell P2419HC, ID 1) → rightmost, 1×
-          monitor=desc:Dell Inc. DELL P2419HC 3YZ2JQ2,preferred,auto,1
+          monitor=desc:DP-4,1920x1080@75,auto,1
 
           # —————————————————————————————————————————————
           # Workspace → monitor bindings
@@ -520,13 +520,13 @@
           workspace=3,monitor:desc:BOE NE135A1M-NY1
           workspace=4,monitor:desc:BOE NE135A1M-NY1
 
-          workspace=5,monitor:desc:HP Inc. HP V27i G5 CNC226124P,default:true
-          workspace=6,monitor:desc:HP Inc. HP V27i G5 CNC226124P
-          workspace=7,monitor:desc:HP Inc. HP V27i G5 CNC226124P
+          workspace=5,monitor:desc:DP-6
+          workspace=6,monitor:desc:DP-6
+          workspace=7,monitor:desc:DP-6
 
-          workspace=8,monitor:desc:Dell Inc. DELL P2419HC 3YZ2JQ2,default:true
-          workspace=9,monitor:desc:Dell Inc. DELL P2419HC 3YZ2JQ2
-          workspace=10,monitor:desc:Dell Inc. DELL P2419HC 3YZ2JQ2
+          workspace=8,monitor:desc:DP-4
+          workspace=9,monitor:desc:DP-4
+          workspace=10,monitor:desc:DP-4
         '';
       };
     })

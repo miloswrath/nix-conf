@@ -63,6 +63,7 @@
         github-desktop
         # gimp
         obsidian
+        streamdeck-ui
       ];
     })
   ];
@@ -101,6 +102,7 @@
       negate  *             *            *             ${keyctl} negate %k 30 %S
     '';
   };
+  virtualisation.docker.enable = true;
   networking = {
     hostName = hostname;
 
