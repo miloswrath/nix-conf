@@ -211,7 +211,7 @@
           SuperReactionTweaks.enabled = false;
           TextReplace.enabled = false;
           ThemeAttributes.enabled = false;
-          Translate.enabled = false;
+          Translate.enabled = true;
           TypingIndicator.enabled = false;
           TypingTweaks.enabled = false;
           Unindent.enabled = false;

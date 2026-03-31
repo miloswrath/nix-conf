@@ -2,32 +2,29 @@
   services.tlp = {
     enable = true;
     settings = {
-      # More thermal-aware governor
-      CPU_SCALING_GOVERNOR_ON_AC = "powersave";
-
-      # More energy-efficient policy under load
-      CPU_ENERGY_PERF_POLICY_ON_AC = "power"; # vs "balance_performance"
-
-      # Hard performance cap: limit turbo bursts
-      CPU_MAX_PERF_ON_AC = 77; # ~64% reduces heat spikes, still responsive
-      CPU_MIN_PERF_ON_AC = 0;
-
-      # On battery: already good
+      CPU_SCALING_GOVERNOR_ON_AC = "performance";
       CPU_SCALING_GOVERNOR_ON_BAT = "powersave";
-      CPU_ENERGY_PERF_POLICY_ON_BAT = "power";
-      CPU_MIN_PERF_ON_BAT = 0;
-      CPU_MAX_PERF_ON_BAT = 50;
+      CPU_ENERGY_PERF_POLICY_ON_AC = "performance";
+      CPU_ENERGY_PERF_POLICY_ON_BAT = "balance_power"; # Conservative for thermal headroom
 
-      # Battery charge thresholds
-      START_CHARGE_THRESH_BAT0 = 82;
-      STOP_CHARGE_THRESH_BAT0 = 95;
-      START_CHARGE_THRESH_BAT1 = 82;
-      STOP_CHARGE_THRESH_BAT1 = 95;
+      # iGPU power limits (i915-specific; adjust for your Ultra 7 155H/165H max ~1.5GHz)
+      INTEL_GPU_MIN_FREQ_ON_AC = 500;
+      INTEL_GPU_MAX_FREQ_ON_AC = 1200; # Cap for thermal (vs. 1500 stock)
+      INTEL_GPU_MIN_FREQ_ON_BAT = 300;
+      INTEL_GPU_MAX_FREQ_ON_BAT = 900; # Aggressive downclock on battery
 
-      SOUND_POWER_SAVE = 1;
+      # PCIe ASPM
+      PCIE_ASPM_ON_AC = "default";
+      PCIE_ASPM_ON_BAT = "powersave";
 
+      # Runtime PM for iGPU
       RUNTIME_PM_ON_AC = "auto";
       RUNTIME_PM_ON_BAT = "auto";
+
+      # Sound power saving (if applicable)
+      SOUND_POWER_SAVE_ON_BAT = 1;
+
+      SOUND_POWER_SAVE = 1;
     };
   };
 }

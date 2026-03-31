@@ -15,16 +15,19 @@
           extensions = with pkgs.vscode-extensions; [
             bbenoist.nix
             # arrterian.nix-env-selector
+            github.copilot-chat
+            github.copilot
+            github.vscode-pull-request-github
             eamodio.gitlens
             github.vscode-github-actions
             yzhang.markdown-all-in-one
             catppuccin.catppuccin-vsc
             catppuccin.catppuccin-vsc-icons
             # asvetliakov.vscode-neovim
-            # vscodevim.vim
+            vscodevim.vim
             tamasfe.even-better-toml
             #jnoortheen.nix-ide
-            # redhat.vscode-yaml
+            redhat.vscode-yaml
             # vadimcn.vscode-lldb
             rust-lang.rust-analyzer
             ms-vscode.cpptools
@@ -130,6 +133,8 @@
             "C_Cpp.clang_format_sortIncludes" = true;
             "C_Cpp.doxygen.generatedStyle" = "/**";
 
+            "terminal.integrated.defaultProfile.linux" =  "tmux";
+
             "vim.leader" = "<Space>";
             "vim.useCtrlKeys" = true;
             "vim.hlsearch" = true;
@@ -164,6 +169,10 @@
               {
                 "before" = ["leader" "s"];
                 "commands" = [":split"];
+              }
+              {
+                "before" = ["leader" "/"];
+                "commands" = ["workbench.action.findInFiles"];
               }
 
               # panes
@@ -254,6 +263,10 @@
               {
                 "before" = ["leader" "c"];
                 "commands" = ["editor.action.commentLine"];
+              }
+              {
+                "before" = ["leader" "a" "c"];
+                "commands" = ["chatgpt.addToThread"];
               }
             ];
           };

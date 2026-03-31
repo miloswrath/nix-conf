@@ -1,6 +1,7 @@
 {
   lib,
   pkgs,
+  inputs,
   videoDriver,
   hostname,
   browser,
@@ -21,10 +22,11 @@
     # ../../modules/desktop/i3-gaps # Enable i3 window manager
 
     ../../modules/programs/games
-    ../../modules/programs/browser/${browser} # Set browser defined in flake.nix
+    #../../modules/programs/browser/${browser} # Set browser defined in flake.nix
     ../../modules/programs/terminal/${terminal} # Set terminal defined in flake.nix
 
     ../../modules/programs/editor/${editor} # Set editor defined in flake.nix
+    ../../modules/programs/editor/vscode
     ../../modules/programs/editor/libre
     ../../modules/programs/cli/${terminalFileManager} # Set file-manager defined in flake.nix
     ../../modules/programs/cli/starship
@@ -43,19 +45,21 @@
     # ../../modules/programs/media/thunderbird
     # ../../modules/programs/media/obs-studio
     ../../modules/programs/media/mpv
-    ../../modules/programs/misc/tlp
+    #../../modules/programs/misc/tlp
     ../../modules/programs/misc/thunar
     #../../modules/programs/misc/lact # GPU fan, clock and power configuration
-    # ../../modules/programs/misc/nix-ld
+     ../../modules/programs/misc/nix-ld
     # ../../modules/programs/misc/virt-manager
     ../../modules/programs/misc/calcurse
     #../../modules/programs/misc/rstudio
-    #../../modules/programs/misc/openconnect-sso
+    ../../modules/programs/misc/openconnect-sso
   ];
 
   nixpkgs.config.allowUnfree = true;
   # Home-manager config
+  home-manager.useGlobalPkgs = true;
   home-manager.sharedModules = [
+    inputs.caelestia-shell.homeManagerModules.default
     (_: {
       home.packages = with pkgs; [
         # pokego # Overlayed
@@ -64,7 +68,32 @@
         # gimp
         obsidian
         streamdeck-ui
+        brave
+        gnome-network-displays
+        protonvpn-gui
+        claude-code
+        zoom-us
       ];
+      programs.caelestia = {
+        enable = true;
+        systemd = {
+          enable = true;
+          target = "graphical-session.target";
+          environment = [];
+        };
+        settings = {
+          bar.status = {
+            showBattery = true;
+          };
+        paths.wallpaperDir = "~/NixOS/modules/themes/wallpapers-ca";
+        };
+        cli = {
+          enable = true;
+          settings = {
+            theme.enableGtk = false;
+          };
+        };
+      };
     })
   ];
   # Define system packages here
@@ -102,14 +131,17 @@
       negate  *             *            *             ${keyctl} negate %k 30 %S
     '';
   };
-  virtualisation.docker.enable = true;
   networking = {
     hostName = hostname;
 
-    firewall.allowedTCPPorts = [2049 3306]; # NFS
-    firewall.allowedUDPPorts = [2049];
+    firewall.allowedTCPPorts = [ 2049 3306 5173 8088 ]; # NFS
+    firewall.allowedUDPPorts = [ 2049 5173 8088 ];
 
     networkmanager.wifi.scanRandMacAddress = false;
+    networkmanager.plugins = [
+      pkgs.networkmanager-openconnect
+      pkgs.networkmanager-openvpn
+    ];
   };
   services.samba = {
     enable = true;
@@ -122,6 +154,7 @@
       };
     };
   };
+  services.upower.enable = true;
   # Enable NFS server
   services.nfs.server.enable = true;
 
@@ -148,7 +181,12 @@
       log_level = "error";
     };
   };
+  virtualisation.docker = {
+    enable = true;
+  };
+  users.users.zak.extraGroups = [ "docker" ];
   users.users.minidlna = {
     extraGroups = ["users"]; # so minidlna can access the files.
   };
+
 }

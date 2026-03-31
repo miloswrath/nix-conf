@@ -14,8 +14,8 @@
     ./programs/wlogout
     ./programs/rofi
     ./programs/hypridle
-    ./programs/hyprlock
-    ./programs/swaync
+    #./programs/hyprlock
+    #./programs/swaync
     # ./programs/dunst
   ];
 
@@ -45,7 +45,303 @@
   };
 
   home-manager.sharedModules = let
-    inherit (lib) getExe getExe';
+    inherit (lib) concatStringsSep getExe getExe';
+
+    mkRuleBlock = type: {name, match, rules}: let
+      formattedRules = concatStringsSep "\n" (map (line: "  " + line) rules);
+    in ''${type} {
+  name = ${name}
+  match:${match}
+${formattedRules}
+}
+'';
+
+    layerRuleBlocks =
+      let
+        layerRuleData = [
+          {
+            name = "rofi-blur";
+            match = "namespace = rofi";
+            rules = ["blur = yes"];
+          }
+          {
+            name = "swaync-control-center";
+            match = "namespace = swaync-control-center";
+            rules = ["blur = yes"];
+          }
+          {
+            name = "swaync-notifications";
+            match = "namespace = swaync-notification-window";
+            rules = ["blur = yes"];
+          }
+        ];
+      in
+        concatStringsSep "\n\n" (map (rule: mkRuleBlock "layerrule" rule) layerRuleData);
+
+    windowRuleBlocks =
+      let
+        opacityRuleData = [
+          {
+            name = "opacity-terminals";
+            match = "class = ^(kitty|alacritty|Alacritty|org.wezfurlong.wezterm)$";
+            values = "0.80 0.80";
+          }
+          {
+            name = "opacity-gcr-prompter";
+            match = "class = ^(gcr-prompter)$";
+            values = "0.90 0.90";
+          }
+          {
+            name = "opacity-hyprpolkit-title";
+            match = "title = ^(Hyprland Polkit Agent)$";
+            values = "0.90 0.90";
+          }
+          {
+            name = "opacity-firefox";
+            match = "class = ^(firefox)$";
+            values = "1.00 1.00";
+          }
+          {
+            name = "opacity-brave";
+            match = "class = ^(Brave-browser)$";
+            values = "0.90 0.90";
+          }
+          {
+            name = "opacity-thunar";
+            match = "class = ^(thunar)$";
+            values = "0.80 0.80";
+          }
+          {
+            name = "opacity-steam";
+            match = "class = ^(Steam|steam|steamwebhelper)$";
+            values = "0.80 0.80";
+          }
+          {
+            name = "opacity-spotify-class";
+            match = "class = ^(Spotify)$";
+            values = "0.80 0.80";
+          }
+          {
+            name = "opacity-spotify-title";
+            match = "title = (.*)(Spotify)(.*)$";
+            values = "0.80 0.80";
+          }
+          {
+            name = "opacity-vscodium";
+            match = "class = ^(VSCodium)$";
+            values = "0.80 0.80";
+          }
+          {
+            name = "opacity-codium-url-handler";
+            match = "class = ^(codium-url-handler)$";
+            values = "0.80 0.80";
+          }
+          {
+            name = "opacity-code";
+            match = "class = ^(code)$";
+            values = "0.80 0.80";
+          }
+          {
+            name = "opacity-code-url-handler";
+            match = "class = ^(code-url-handler)$";
+            values = "0.80 0.80";
+          }
+          {
+            name = "opacity-terminal-file-manager";
+            match = "class = ^(terminalFileManager)$";
+            values = "0.80 0.80";
+          }
+          {
+            name = "opacity-dolphin";
+            match = "class = ^(org.kde.dolphin)$";
+            values = "0.80 0.80";
+          }
+          {
+            name = "opacity-ark";
+            match = "class = ^(org.kde.ark)$";
+            values = "0.80 0.80";
+          }
+          {
+            name = "opacity-nwg-look";
+            match = "class = ^(nwg-look)$";
+            values = "0.80 0.80";
+          }
+          {
+            name = "opacity-qt5ct";
+            match = "class = ^(qt5ct)$";
+            values = "0.80 0.80";
+          }
+          {
+            name = "opacity-qt6ct";
+            match = "class = ^(qt6ct)$";
+            values = "0.80 0.80";
+          }
+          {
+            name = "opacity-yad";
+            match = "class = ^(yad)$";
+            values = "0.80 0.80";
+          }
+          {
+            name = "opacity-clapper";
+            match = "class = ^(com.github.rafostar.Clapper)$";
+            values = "0.90 0.90";
+          }
+          {
+            name = "opacity-flatseal";
+            match = "class = ^(com.github.tchx84.Flatseal)$";
+            values = "0.80 0.80";
+          }
+          {
+            name = "opacity-cartridges";
+            match = "class = ^(hu.kramo.Cartridges)$";
+            values = "0.80 0.80";
+          }
+          {
+            name = "opacity-obs";
+            match = "class = ^(com.obsproject.Studio)$";
+            values = "0.80 0.80";
+          }
+          {
+            name = "opacity-gnome-boxes";
+            match = "class = ^(gnome-boxes)$";
+            values = "0.80 0.80";
+          }
+          {
+            name = "opacity-discord";
+            match = "class = ^(discord)$";
+            values = "0.90 0.90";
+          }
+          {
+            name = "opacity-webcord";
+            match = "class = ^(WebCord)$";
+            values = "0.90 0.90";
+          }
+          {
+            name = "opacity-warp";
+            match = "class = ^(app.drey.Warp)$";
+            values = "0.80 0.80";
+          }
+          {
+            name = "opacity-protonup";
+            match = "class = ^(net.davidotek.pupgui2)$";
+            values = "0.80 0.80";
+          }
+          {
+            name = "opacity-signal";
+            match = "class = ^(Signal)$";
+            values = "0.80 0.80";
+          }
+          {
+            name = "opacity-upscaler";
+            match = "class = ^(io.gitlab.theevilskeleton.Upscaler)$";
+            values = "0.80 0.80";
+          }
+          {
+            name = "opacity-obsidian";
+            match = "class = ^(obsidian)$";
+            values = "0.80 0.80";
+          }
+          {
+            name = "opacity-zotero";
+            match = "class = ^(Zotero)$";
+            values = "0.80 0.80";
+          }
+          {
+            name = "opacity-pavucontrol";
+            match = "class = ^(pavucontrol)$";
+            values = "0.80 0.70";
+          }
+          {
+            name = "opacity-pulseaudio";
+            match = "class = ^(org.pulseaudio.pavucontrol)$";
+            values = "0.80 0.70";
+          }
+          {
+            name = "opacity-blueman";
+            match = "class = ^(blueman-manager|.blueman-manager-wrapped)$";
+            values = "0.80 0.70";
+          }
+          {
+            name = "opacity-nm";
+            match = "class = ^(nm-applet|nm-connection-editor)$";
+            values = "0.80 0.70";
+          }
+          {
+            name = "opacity-polkit-kde";
+            match = "class = ^(org.kde.polkit-kde-authentication-agent-1)$";
+            values = "0.80 0.70";
+          }
+        ];
+
+        floatRuleData = [
+          {name = "float-qt5ct"; match = "class = ^(qt5ct)$";}
+          {name = "float-nwg-look"; match = "class = ^(nwg-look)$";}
+          {name = "float-ark"; match = "class = ^(org.kde.ark)$";}
+          {name = "float-signal"; match = "class = ^(Signal)$";}
+          {name = "float-clapper"; match = "class = ^(com.github.rafostar.Clapper)$";}
+          {name = "float-warp"; match = "class = ^(app.drey.Warp)$";}
+          {name = "float-protonup"; match = "class = ^(net.davidotek.pupgui2)$";}
+          {name = "float-eog"; match = "class = ^(eog)$";}
+          {name = "float-upscaler"; match = "class = ^(io.gitlab.theevilskeleton.Upscaler)$";}
+          {name = "float-yad"; match = "class = ^(yad)$";}
+          {name = "float-pavucontrol"; match = "class = ^(pavucontrol)$";}
+          {name = "float-blueman"; match = "class = ^(blueman-manager|.blueman-manager-wrapped)$";}
+          {name = "float-nm"; match = "class = ^(nm-applet|nm-connection-editor)$";}
+          {name = "float-polkit-kde"; match = "class = ^(org.kde.polkit-kde-authentication-agent-1)$";}
+        ];
+
+        baseRules = [
+          {
+            name = "tile-godot";
+            match = "title = (.*)(Godot)(.*)$";
+            rules = ["tile = yes"];
+          }
+          {
+            name = "content-games";
+            match = "tag = games";
+            rules = ["content = game"];
+          }
+          {
+            name = "tag-from-content";
+            match = "content = game";
+            rules = ["tag = +games"];
+          }
+          {
+            name = "tag-steam-apps";
+            match = "class = ^(steam_app.*|steam_app_\\d+)$";
+            rules = ["tag = +games"];
+          }
+          {
+            name = "tag-gamescope";
+            match = "class = ^(gamescope)$";
+            rules = ["tag = +games"];
+          }
+          {
+            name = "tag-waydroid";
+            match = "class = (Waydroid)";
+            rules = ["tag = +games"];
+          }
+          {
+            name = "tag-osu";
+            match = "class = (osu!)";
+            rules = ["tag = +games"];
+          }
+        ];
+
+        mappedOpacities = map (rule: {
+          name = rule.name;
+          match = rule.match;
+          rules = ["opacity = ${rule.values}"];
+        }) opacityRuleData;
+
+        mappedFloats = map (rule: {
+          name = rule.name;
+          match = rule.match;
+          rules = ["float = yes"];
+        }) floatRuleData;
+      in
+        concatStringsSep "\n\n"
+        (map (rule: mkRuleBlock "windowrule" rule) (baseRules ++ mappedOpacities ++ mappedFloats));
   in [
     ({...}: {
       home.packages = with pkgs; [
@@ -60,7 +356,7 @@
         pamixer
         pavucontrol
         playerctl
-        waybar
+        #waybar
         wtype
         wl-clipboard
         xdotool
@@ -118,8 +414,8 @@
             #"[workspace special silent] ${browser} --private-window"
             #"[workspace special silent] ${terminal}"
 
-            "waybar"
-            "swaync"
+            #"waybar"
+            #"swaync"
             "nm-applet --indicator"
             "wl-clipboard-history -t"
             "${getExe' pkgs.wl-clipboard "wl-paste"} --type text --watch cliphist store" # clipboard store text data
@@ -174,19 +470,6 @@
             "col.border_locked_active" = "rgba(ca9ee6ff) rgba(f2d5cfff) 45deg";
             "col.border_locked_inactive" = "rgba(b4befecc) rgba(6c7086cc) 45deg";
           };
-          layerrule = [
-            "blur, rofi"
-            "ignorezero, rofi"
-            "ignorealpha 0.7, rofi"
-
-            "blur, swaync-control-center"
-            "blur, swaync-notification-window"
-            "ignorezero, swaync-control-center"
-            "ignorezero, swaync-notification-window"
-            "ignorealpha 0.7, swaync-control-center"
-            # "ignorealpha 0.8, swaync-notification-window"
-            # "dimaround, swaync-control-center"
-          ];
           animations = {
             enabled = true;
             bezier = [
@@ -239,97 +522,8 @@
             new_on_top = true;
             mfact = 0.5;
           };
-          windowrule = [
-            #"noanim, class:^(Rofi)$
-            "tile,title:(.*)(Godot)(.*)$"
-            # "workspace 1, class:^(kitty|Alacritty|org.wezfurlong.wezterm)$"
-            # "workspace 2, class:^(code|VSCodium|code-url-handler|codium-url-handler)$"
-            # "workspace 3, class:^(krita)$"
-            # "workspace 3, title:(.*)(Godot)(.*)$"
-            # "workspace 3, title:(GNU Image Manipulation Program)(.*)$"
-            # "workspace 3, class:^(factorio)$"
-            # "workspace 3, class:^(steam)$"
-            # "workspace 5, class:^(firefox|floorp|zen)$"
-            # "workspace 6, class:^(Spotify)$"
-            # "workspace 6, title:(.*)(Spotify)(.*)$"
-
-            # Can use FLOAT FLOAT for active and inactive or just FLOAT
-            "opacity 0.80 0.80,class:^(kitty|alacritty|Alacritty|org.wezfurlong.wezterm)$"
-            "opacity 0.90 0.90,class:^(gcr-prompter)$" # keyring prompt
-            "opacity 0.90 0.90,title:^(Hyprland Polkit Agent)$" # polkit prompt
-            "opacity 1.00 1.00,class:^(firefox)$"
-            "opacity 0.90 0.90,class:^(Brave-browser)$"
-            "opacity 0.80 0.80,class:^(thunar)$"
-            "opacity 0.80 0.80,class:^(Steam)$"
-            "opacity 0.80 0.80,class:^(steam)$"
-            "opacity 0.80 0.80,class:^(steamwebhelper)$"
-            "opacity 0.80 0.80,class:^(Spotify)$"
-            "opacity 0.80 0.80,title:(.*)(Spotify)(.*)$"
-            "opacity 0.80 0.80,class:^(VSCodium)$"
-            "opacity 0.80 0.80,class:^(codium-url-handler)$"
-            "opacity 0.80 0.80,class:^(code)$"
-            "opacity 0.80 0.80,class:^(code-url-handler)$"
-            "opacity 0.80 0.80,class:^(terminalFileManager)$"
-            "opacity 0.80 0.80,class:^(org.kde.dolphin)$"
-            "opacity 0.80 0.80,class:^(org.kde.ark)$"
-            "opacity 0.80 0.80,class:^(nwg-look)$"
-            "opacity 0.80 0.80,class:^(qt5ct)$"
-            "opacity 0.80 0.80,class:^(qt6ct)$"
-            "opacity 0.80 0.80,class:^(yad)$"
-
-            "opacity 0.90 0.90,class:^(com.github.rafostar.Clapper)$" #Clapper-Gtk
-            "opacity 0.80 0.80,class:^(com.github.tchx84.Flatseal)$" #Flatseal-Gtk
-            "opacity 0.80 0.80,class:^(hu.kramo.Cartridges)$" #Cartridges-Gtk
-            "opacity 0.80 0.80,class:^(com.obsproject.Studio)$" #Obs-Qt
-            "opacity 0.80 0.80,class:^(gnome-boxes)$" #Boxes-Gtk
-            "opacity 0.90 0.90,class:^(discord)$" #Discord-Electron
-            "opacity 0.90 0.90,class:^(WebCord)$" #WebCord-Electron
-            "opacity 0.80 0.80,class:^(app.drey.Warp)$" #Warp-Gtk
-            "opacity 0.80 0.80,class:^(net.davidotek.pupgui2)$" #ProtonUp-Qt
-            "opacity 0.80 0.80,class:^(Signal)$" #Signal-Gtk
-            "opacity 0.80 0.80,class:^(io.gitlab.theevilskeleton.Upscaler)$" #Upscaler-Gtk
-
-            "opacity 0.80 0.70,class:^(pavucontrol)$"
-            "opacity 0.80 0.70,class:^(org.pulseaudio.pavucontrol)$"
-            "opacity 0.80 0.70,class:^(blueman-manager)$"
-            "opacity 0.80 0.70,class:^(.blueman-manager-wrapped)$"
-            "opacity 0.80 0.70,class:^(nm-applet)$"
-            "opacity 0.80 0.70,class:^(nm-connection-editor)$"
-            "opacity 0.80 0.70,class:^(org.kde.polkit-kde-authentication-agent-1)$"
-
-            "content game, tag:games"
-            "tag +games, content:game"
-            "tag +games, class:^(steam_app.*|steam_app_\d+)$"
-            "tag +games, class:^(gamescope)$"
-            "tag +games, class:(Waydroid)"
-            "tag +games, class:(osu!)"
-
-            # Games
-            "syncfullscreen,tag:games"
-            "fullscreen,tag:games"
-            "noborder 1,tag:games"
-            "noshadow,tag:games"
-            "noblur,tag:games"
-            "noanim,tag:games"
-
-            "float,class:^(qt5ct)$"
-            "float,class:^(nwg-look)$"
-            "float,class:^(org.kde.ark)$"
-            "float,class:^(Signal)$" #Signal-Gtk
-            "float,class:^(com.github.rafostar.Clapper)$" #Clapper-Gtk
-            "float,class:^(app.drey.Warp)$" #Warp-Gtk
-            "float,class:^(net.davidotek.pupgui2)$" #ProtonUp-Qt
-            "float,class:^(eog)$" #Imageviewer-Gtk
-            "float,class:^(io.gitlab.theevilskeleton.Upscaler)$" #Upscaler-Gtk
-            "float,class:^(yad)$"
-            "float,class:^(pavucontrol)$"
-            "float,class:^(blueman-manager)$"
-            "float,class:^(.blueman-manager-wrapped)$"
-            "float,class:^(nm-applet)$"
-            "float,class:^(nm-connection-editor)$"
-            "float,class:^(org.kde.polkit-kde-authentication-agent-1)$"
-          ];
           binde = [
+            # caelestia
             # Resize windows
             "$mainMod SHIFT, right, resizeactive, 30 0"
             "$mainMod SHIFT, left, resizeactive, -30 0"
@@ -371,7 +565,7 @@
               "$mainMod, W, togglefloating" # toggle the window on focus to float
               "$mainMod SHIFT, G, togglegroup" # toggle the window on focus to float
               "ALT, return, fullscreen" # toggle the window on focus to fullscreen
-              "$mainMod ALT, L, exec, hyprlock" # lock screen
+              "$mainMod ALT, L, global, caelestia:lock" # lock screen
               "$mainMod, backspace, exec, pkill -x wlogout || wlogout -b 4" # logout menu
               "$CONTROL, ESCAPE, exec, pkill waybar || waybar" # toggle waybar
 
@@ -386,7 +580,8 @@
               "$CONTROL ALT, DELETE, exec, $term -e '${getExe pkgs.btop}'" # System Monitor
               "$mainMod CTRL, C, exec, hyprpicker --autocopy --format=hex" # Colour Picker
 
-              "$mainMod, A, exec, pkill -x rofi || ${./scripts/rofi.sh} drun" # launch desktop applications
+              "$mainMod, A, global, caelestia:launcher" 
+              #"$mainMod, A, exec, pkill -x rofi || ${./scripts/rofi.sh} drun" # launch desktop applications
               "$mainMod, SPACE, exec, pkill -x rofi || ${./scripts/rofi.sh} drun" # launch desktop applications
               "$mainMod, Z, exec, pkill -x rofi || ${./scripts/rofi.sh} emoji" # launch emoji picker
               # "$mainMod, tab, exec, pkill -x rofi || ${./scripts/rofi.sh} window" # switch between desktop applications
@@ -497,37 +692,41 @@
           ];
         };
         extraConfig = ''
-          binds {
-            workspace_back_and_forth = 1
-          }
+${layerRuleBlocks}
 
-          # 0) Default monitor → leftmost, 1×
-          monitor=,preferred,auto,1
+${windowRuleBlocks}
 
-          # 1) Internal laptop display (eDP-1) at 1.5×, auto-placed
-          monitor=desc:BOE NE135A1M-NY1,2880x1920@120,auto,1.25
+binds {
+  workspace_back_and_forth = 1
+}
 
-          # 2) External DP-4 (HP V27i G5, ID 2) → next slot, 1×
-          monitor=desc:DP-6,1920x1080@75,auto,1
+# 0) Default monitor → leftmost, 1×
+monitor=,preferred,auto,1
 
-          # 3) External DP-8 (Dell P2419HC, ID 1) → rightmost, 1×
-          monitor=desc:DP-4,1920x1080@75,auto,1
+# 1) Internal laptop display (eDP-1) at 1.5×, auto-placed
+monitor=desc:BOE NE135A1M-NY1,2880x1920@120,auto,1.25
 
-          # —————————————————————————————————————————————
-          # Workspace → monitor bindings
-          workspace=1,monitor:desc:BOE NE135A1M-NY1,default:true
-          workspace=2,monitor:desc:BOE NE135A1M-NY1
-          workspace=3,monitor:desc:BOE NE135A1M-NY1
-          workspace=4,monitor:desc:BOE NE135A1M-NY1
+# 2) External DP-4 (HP V27i G5, ID 2) → next slot, 1×
+monitor=desc:DP-6,1920x1080@75,auto,1
 
-          workspace=5,monitor:desc:DP-6
-          workspace=6,monitor:desc:DP-6
-          workspace=7,monitor:desc:DP-6
+# 3) External DP-8 (Dell P2419HC, ID 1) → rightmost, 1×
+monitor=desc:DP-4,1920x1080@75,auto,1
 
-          workspace=8,monitor:desc:DP-4
-          workspace=9,monitor:desc:DP-4
-          workspace=10,monitor:desc:DP-4
-        '';
+# —————————————————————————————————————————————
+# Workspace → monitor bindings
+workspace=1,monitor:desc:BOE NE135A1M-NY1,default:true
+workspace=2,monitor:desc:BOE NE135A1M-NY1
+workspace=3,monitor:desc:BOE NE135A1M-NY1
+workspace=4,monitor:desc:BOE NE135A1M-NY1
+
+workspace=5,monitor:desc:DP-6
+workspace=6,monitor:desc:DP-6
+workspace=7,monitor:desc:DP-6
+
+workspace=8,monitor:desc:DP-4
+workspace=9,monitor:desc:DP-4
+workspace=10,monitor:desc:DP-4
+'';
       };
     })
   ];

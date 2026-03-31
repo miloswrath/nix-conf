@@ -42,13 +42,13 @@ in {
       };
 
       # Set wallpaper
-      services.hyprpaper = {
-        enable = true;
-        settings = {
-          preload = ["${../wallpapers/${wallpaper}.jxl}"];
-          wallpaper = [",${../wallpapers/${wallpaper}.jxl}"];
-        };
-      };
+ #    services.hyprpaper = {
+ #      enable = true;
+ #      settings = {
+ #        preload = ["${../wallpapers/${wallpaper}.jxl}"];
+ #        wallpaper = [",${../wallpapers/${wallpaper}.jxl}"];
+ #      };
+ #    };
 
       dconf.settings = {
         "org/gnome/desktop/interface" = {

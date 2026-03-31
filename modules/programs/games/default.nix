@@ -20,8 +20,8 @@
     # ryujinx
     prismlauncher
 
-    steam-run
-    wineWowPackages.staging
+    #steam-run
+    #wineWow64Packages.staging
   ];
   programs = {
     gamemode.enable = true;

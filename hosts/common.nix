@@ -214,15 +214,13 @@
 
   # Enable networking
   networking = {
-    hostName = "zaddy"; # Define your hostname.
-    networkmanager = {
-      enable = true;
-    };
-    # wireless.enable = true; # Enables wireless support via wpa_supplicant.
-    # Configure network proxy if necessary
-    # networking.proxy.default = "http://user:password@proxy:port/";
-    # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
+    hostName = "zaddy";
+    networkmanager.enable = true;
+    # Use iwd instead of wpa_supplicant
+    networkmanager.wifi.backend = "wpa_supplicant";
+    wireless.enable = true;
   };
+
   # Enable sddm login manager
   services.displayManager = {
     sddm = {
@@ -244,19 +242,10 @@
   services.gnome.gnome-keyring.enable = true;
 
   # Enable CUPS to print documents.
-  services.printing.enable = true;
 
   services.fwupd.enable = true; # Enable firmware updates via fwupd
   services.fprintd.enable = lib.mkDefault true;
   # we need fwupd 1.9.7 to downgrade the fingerprint sensor firmware
-  services.fwupd.package =
-    (import (builtins.fetchTarball {
-        url = "https://github.com/NixOS/nixpkgs/archive/bb2009ca185d97813e75736c2b8d1d8bb81bde05.tar.gz";
-        sha256 = "sha256:003qcrsq5g5lggfrpq31gcvj82lb065xvr7bpfa8ddsw8x4dnysk";
-      })
-      {
-        inherit (pkgs) system;
-      }).fwupd;
   # Enable sound with pipewire.
   services.pulseaudio.enable = false;
   security.rtkit.enable = true;
@@ -276,7 +265,7 @@
         # Optional: prevent rate switching
         #"default.clock.allowed-rates" = [ 48000 ];
       };
-    };
+     };
     wireplumber = {
       enable = true;
 
