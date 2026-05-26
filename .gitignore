@@ -1,0 +1,8 @@
+.direnv/
+target
+result
+result-*
+modules/themes/wallpapers-ca/
+
+[Bb]ackup
+[Bb]ackup/*
