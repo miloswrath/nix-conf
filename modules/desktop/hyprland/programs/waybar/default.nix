@@ -25,9 +25,19 @@
             margin-bottom = 0;
 
             modules-left = ["hyprland/workspaces" "cava"];
-            # modules-center = ["clock" "custom/notification"];
-            modules-center = ["idle_inhibitor" "clock"];
-            modules-right = ["custom/gpuinfo" "cpu" "memory" "backlight" "pulseaudio" "bluetooth" "network" "tray" "battery"];
+            modules-center = ["clock" "custom/notification"];
+            # modules-center = ["idle_inhibitor" "clock"];
+            modules-right = [
+              # "custom/gpuinfo" 
+              "cpu" 
+              "memory" 
+              # "backlight" 
+              # "pulseaudio" 
+              "bluetooth" 
+              # "network" 
+              # "tray" 
+              "battery"
+            ];
 
             "custom/notification" = {
               tooltip = false;
@@ -129,7 +139,7 @@
               format = "  {}";
               separate-outputs = true;
               rewrite = {
-                "harvey@hyprland =(.*)" = "$1 ";
+                "zaddy@hyprland =(.*)" = "$1 ";
                 "(.*) — Mozilla Firefox" = "$1 󰈹";
                 "(.*)Mozilla Firefox" = " Firefox 󰈹";
                 "(.*) - Visual Studio Code" = "$1 󰨞";

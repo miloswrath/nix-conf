@@ -48,7 +48,7 @@ hl.bind(mainMod .. " + delete",    hl.dsp.exit())
 hl.bind(mainMod .. " + W",         hl.dsp.window.float({ action = "toggle" }))
 hl.bind(mainMod .. " + SHIFT + G", hl.dsp.group.toggle())
 hl.bind("ALT + return",            hl.dsp.window.fullscreen())
-hl.bind(mainMod .. " + ALT + L",   hl.dsp.exec_cmd("hyprctl dispatch global caelestia:lock"))
+hl.bind(mainMod .. " + ALT + L",   hl.dsp.global("caelestia:lock"))
 hl.bind(mainMod .. " + backspace", hl.dsp.exec_cmd("pkill -x wlogout || wlogout -b 4"))
 hl.bind("CTRL + ESCAPE",           hl.dsp.exec_cmd("pkill waybar || waybar"))
 
@@ -64,7 +64,8 @@ hl.bind("CTRL + ALT + DELETE",     hl.dsp.exec_cmd(term .. " -e btop"))
 hl.bind(mainMod .. " + CTRL + C",  hl.dsp.exec_cmd("hyprpicker --autocopy --format=hex"))
 
 -- Launchers
-hl.bind(mainMod .. " + A",         hl.dsp.exec_cmd("hyprctl dispatch global caelestia:launcher"))
+hl.bind(mainMod .. " + A",         hl.dsp.global("caelestia:launcher"))
+hl.bind(mainMod .. " + A",         hl.dsp.global("caelestia:launcher"), { release = true })
 hl.bind(mainMod .. " + SPACE",     hl.dsp.exec_cmd("pkill -x rofi || " .. rofi_script .. " drun"))
 hl.bind(mainMod .. " + Z",         hl.dsp.exec_cmd("pkill -x rofi || " .. rofi_script .. " emoji"))
 hl.bind(mainMod .. " + ALT + K",   hl.dsp.exec_cmd(keyboardswitch))

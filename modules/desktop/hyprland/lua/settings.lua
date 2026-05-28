@@ -20,9 +20,10 @@ hl.env("AQ_DRM_DEVICES", "/dev/dri/card1")
 
 -- Startup (variables.lua globals: wl_paste, batterynotify)
 hl.on("hyprland.start", function()
-	-- Propagate Wayland env to systemd user services, then activate graphical-session.target
-	hl.exec_cmd("systemctl --user import-environment DISPLAY WAYLAND_DISPLAY XDG_CURRENT_DESKTOP XDG_SESSION_TYPE")
-	hl.exec_cmd("hash dbus-update-activation-environment 2>/dev/null && dbus-update-activation-environment --systemd DISPLAY WAYLAND_DISPLAY XDG_CURRENT_DESKTOP XDG_SESSION_TYPE")
+	-- Propagate the full Hyprland environment to systemd/dbus-launched apps.
+	-- This mirrors home-manager's previous systemd.variables = ["--all"].
+	hl.exec_cmd("systemctl --user import-environment")
+	hl.exec_cmd("hash dbus-update-activation-environment 2>/dev/null && dbus-update-activation-environment --systemd --all")
 	hl.exec_cmd("systemctl --user start hyprland-session.target")
 	hl.exec_cmd("nm-applet --indicator")
 	hl.exec_cmd("wl-clipboard-history -t")
@@ -36,8 +37,8 @@ end)
 
 hl.config({
 	input = {
-		kb_layout  = kbdLayout .. ",ru",
-		kb_variant = kbdVariant .. ",",
+		kb_layout  = kbdLayout,
+		kb_variant = kbdVariant,
 		repeat_delay = 300,
 		repeat_rate  = 30,
 		follow_mouse = 1,
@@ -112,6 +113,10 @@ hl.config({
 	},
 	xwayland = {
 		force_zero_scaling = false,
+		-- Newer Hyprland defaults this to true, which makes XWayland apps
+		-- pixelated/grainy on scaled displays. Spotify currently falls back to
+		-- XWayland even with ozone/Wayland flags, so keep linear filtering.
+		use_nearest_neighbor = false,
 	},
 	dwindle = {
 		preserve_split = true,
