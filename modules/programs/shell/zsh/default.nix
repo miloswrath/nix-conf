@@ -213,12 +213,12 @@
 
           # Directory Shortcuts.
           dots = "cd ~/NixOS/";
-          games = "cd /mnt/games/";
           work = "cd /home/zak/work/";
           school = "cd /home/zak/school/";
-          # dev = "cd /mnt/work/dev/";
-          # nixdir = "cd /mnt/work/dev/nix/";
-          # cppdir = "cd /mnt/work/dev/C++/";
+          brain = "cd /home/zak/notes/notes-2/";
+          dev = "cd /home/zak/personal/dev/";
+          godir = "cd /home/zak/personal/dev/go/";
+          cppdir = "cd /home/zak/personal/dev/cpp";
           # zigdir = "cd /mnt/work/dev/Zig/";
           # csdir = "cd /mnt/work/dev/C#/";
           # rustdir = "cd /mnt/work/dev/Rust/";
