@@ -177,9 +177,9 @@
       log_level = "error";
     };
   };
-  virtualisation.docker = {
-    enable = true;
-  };
+  # virtualisation.docker = {
+  #   enable = true;
+  # };
   users.users.zak.extraGroups = [ "docker" ];
   users.users.minidlna = {
     extraGroups = ["users"]; # so minidlna can access the files.
