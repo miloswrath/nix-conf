@@ -55,7 +55,7 @@
       videoDriver = "nvidia"; # CHOOSE YOUR GPU DRIVERS (nvidia, amdgpu or intel)
       hostname = "zaddy"; # CHOOSE A HOSTNAME HERE
       locale = "en_US.UTF-8"; # CHOOSE YOUR LOCALE
-      timezone = "America/Chicago"; # CHOOSE YOUR TIMEZONE
+      timezone = "America/New_York"; # CHOOSE YOUR TIMEZONE
       kbdLayout = "us"; # CHOOSE YOUR KEYBOARD LAYOUT
       kbdVariant = ""; # CHOOSE YOUR KEYBOARD VARIANT (Can leave empty)
       consoleKeymap = "us"; # CHOOSE YOUR CONSOLE KEYMAP (Affects the tty?)
@@ -75,6 +75,9 @@
         system = forAllSystems (system: system);
         specialArgs = {inherit self inputs outputs;} // settings;
           modules = [
+            # vesktop depends on electron-40.x (EOL); remove once vesktop upgrades
+            # run ./check-insecure-electron.sh after `nix flake update` to know when
+            { nixpkgs.config.permittedInsecurePackages = [ "electron-40.10.5" ]; }
             ./hosts/Default/configuration.nix
           ];
       };

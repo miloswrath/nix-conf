@@ -71,7 +71,6 @@
         #monero-gui
         proton-vpn
         libreoffice-qt-fresh
-        zoom-us
         devenv
         pi-coding-agent
         ani-cli
@@ -136,6 +135,9 @@
         };
       };
     })
+  ];
+  nixpkgs.config.permittedInsecurePackages = [
+    "electron-40.10.5"  # or whatever version nix reports
   ];
   # Define system packages here
   environment.systemPackages = with pkgs; [

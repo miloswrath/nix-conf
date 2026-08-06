@@ -47,5 +47,20 @@
     cisco-anyconnect = (import ./anyconnect.nix) {
       inherit final settings inputs;
     };
+
+    # nixpkgs bumped glaze 7.9.1 -> 8.0.0 (PR #548864), but Hyprland's
+    # CMakeLists still pins `find_package(glaze 7...<8)`, so the build can't
+    # find the packaged glaze and falls back to a network FetchContent that
+    # fails in the sandbox. Fixed upstream via nixpkgs PR #549253 (relaxes the
+    # version constraint), but that hasn't reached the nixos-unstable channel
+    # yet. Mirror the same patch here until `nix flake update` picks it up,
+    # then remove this override.
+    hyprland = prev.hyprland.overrideAttrs (old: {
+      postPatch = ''
+        substituteInPlace CMakeLists.txt start/CMakeLists.txt hyprpm/CMakeLists.txt \
+          --replace-fail "glaze 7...<8" "glaze"
+      ''
+      + (old.postPatch or "");
+    });
   };
 }
