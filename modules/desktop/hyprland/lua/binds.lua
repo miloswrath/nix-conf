@@ -64,8 +64,9 @@ hl.bind("CTRL + ALT + DELETE",     hl.dsp.exec_cmd(term .. " -e btop"))
 hl.bind(mainMod .. " + CTRL + C",  hl.dsp.exec_cmd("hyprpicker --autocopy --format=hex"))
 
 -- Launchers
-hl.bind(mainMod .. " + A",         hl.dsp.global("caelestia:launcher"))
-hl.bind(mainMod .. " + A",         hl.dsp.global("caelestia:launcher"), { release = true })
+-- One bind only: the global dispatcher forwards both press and release to
+-- caelestia, which toggles on release. A second release bind toggles twice.
+hl.bind(mainMod .. " + A",         hl.dsp.global("caelestia:launcher"), { description = "Launcher" })
 hl.bind(mainMod .. " + SPACE",     hl.dsp.exec_cmd("pkill -x rofi || " .. rofi_script .. " drun"))
 hl.bind(mainMod .. " + Z",         hl.dsp.exec_cmd("pkill -x rofi || " .. rofi_script .. " emoji"))
 hl.bind(mainMod .. " + ALT + K",   hl.dsp.exec_cmd(keyboardswitch))
