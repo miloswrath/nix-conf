@@ -18,13 +18,16 @@
             github.copilot-chat
             github.copilot
             github.vscode-pull-request-github
-            eamodio.gitlens
+            # eamodio.gitlens
             github.vscode-github-actions
             yzhang.markdown-all-in-one
             catppuccin.catppuccin-vsc
             catppuccin.catppuccin-vsc-icons
-            # asvetliakov.vscode-neovim
-            vscodevim.vim
+
+            # Trying out neovim instead of vim for the time being
+            asvetliakov.vscode-neovim
+            # vscodevim.vim
+
             tamasfe.even-better-toml
             #jnoortheen.nix-ide
             redhat.vscode-yaml
@@ -33,7 +36,7 @@
             ms-vscode.cpptools
             ms-vscode.cmake-tools
             ms-vscode.makefile-tools
-            ziglang.vscode-zig
+            # ziglang.vscode-zig
             # ms-dotnettools.csharp
             ms-python.python
             # pkief.material-icon-theme
@@ -75,8 +78,10 @@
             "git.enableSmartCommit" = true;
             "git.autofetch" = true;
             "git.confirmSync" = false;
-            "gitlens.hovers.annotations.changes" = false;
-            "gitlens.hovers.avatars" = false;
+
+            # Disabled gitlens, keeping configuration in case            
+            # "gitlens.hovers.annotations.changes" = false;
+            # "gitlens.hovers.avatars" = false;
 
             "editor.semanticHighlighting.enabled" = true;
             "gopls" = {"ui.semanticTokens" = true;};

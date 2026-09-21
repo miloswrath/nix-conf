@@ -26,7 +26,7 @@
     ../../modules/programs/terminal/${terminal} # Set terminal defined in flake.nix
 
     ../../modules/programs/editor/${editor} # Set editor defined in flake.nix
-    #../../modules/programs/editor/vscode
+    ../../modules/programs/editor/vscode
     ../../modules/programs/editor/libre
     ../../modules/programs/cli/${terminalFileManager} # Set file-manager defined in flake.nix
     ../../modules/programs/cli/starship
@@ -49,7 +49,7 @@
     ../../modules/programs/misc/thunar
     #../../modules/programs/misc/lact # GPU fan, clock and power configuration
      ../../modules/programs/misc/nix-ld
-    # ../../modules/programs/misc/virt-manager
+    ../../modules/programs/misc/virt-manager
     ../../modules/programs/misc/calcurse
     #../../modules/programs/misc/rstudio
     ../../modules/programs/misc/openconnect-sso
@@ -67,11 +67,17 @@
         # gimp
         obsidian
         brave
-        # gnome-network-displays -> If you need network displays uncomment
+        gnome-network-displays
         proton-vpn
         claude-code
         zoom-us
         pi-coding-agent
+
+        tor
+        tor-browser
+        monero-gui
+        parted
+        efibootmgr
       ];
       programs.caelestia = {
         enable = true;

@@ -38,15 +38,17 @@ yad \
   "SUPER Return" "Launch terminal" "$_terminal" \
   "SUPER T" "Launch terminal" "$_terminal" \
   "SUPER E" "Launch file manager" "$_terminal_FM" \
+  "SUPER C" "Launch editor" "code --disable-gpu" \
   "SUPER F" "Launch browser" "$_browser" \
   "SUPER SHIFT S" "Launch spotify" "spotify" \
+  "SUPER SHIFT Y" "Launch YouTube Music" "youtube-music" \
   "CTRL ALT Delete" "Open system monitor" "$_terminal -e 'btop'" \
-  "SUPER A" "Launch application menu" "scripts/rofi.sh drun" \
-  "SUPER SPACE" "Launch application menu" "scripts/rofi.sh drun" \
-  "SUPER F9" "Enable night mode" "hyprsunset --temperature 2500" \
+  "SUPER A" "Toggle launcher" "hyprctl dispatch global caelestia:launcher" \
+  "SUPER SPACE" "Launch application menu" "pkill -x rofi || scripts/rofi.sh drun" \
+  "SUPER F9" "Enable night mode" "hyprsunset --temperature 3500" \
   "SUPER F10" "Disable night mode" "pkill hyprsunset" \
-  "SUPER F8" "Toggle autoclicker" "scripts/autoclicker.nix" \
-  "SUPER CTRL C" "Colour picker" "hyprpicker --autocopy" \
+  "SUPER F8" "Toggle autoclicker" "kill \$(cat /tmp/auto-clicker.pid) || autoclicker --cps 40" \
+  "SUPER CTRL C" "Colour picker" "hyprpicker --autocopy --format=hex" \
   "SUPER, Left Click" "Move window with mouse" "movewindow" \
   "SUPER, Right Click" "Resize window with mouse" "resizewindow" \
   "SUPER SHIFT →" "Resize window right" "resizeactive 30 0" \
@@ -60,30 +62,32 @@ yad \
   "XF86MonBrightnessDown" "Decrease brightness" "brightnessctl set 2%-" \
   "XF86MonBrightnessUp" "Increase brightness" "brightnessctl set +2%" \
   "XF86AudioLowerVolume" "Lower volume" "pamixer -d 2" \
-  "XF86AudioRaiseVolume" "Increase volume" "pamixer -i 2%" \
+  "XF86AudioRaiseVolume" "Increase volume" "pamixer -i 2" \
   "XF86AudioMicMute" "Mute microphone" "pamixer --default-source -t" \
   "XF86AudioMute" "Mute audio" "pamixer -t" \
   "XF86AudioPlay" "Play/Pause media" "playerctl play-pause" \
+  "XF86AudioPause" "Play/Pause media" "playerctl play-pause" \
   "XF86AudioNext" "Next media track" "playerctl next" \
   "XF86AudioPrev" "Previous media track" "playerctl previous" \
+  "XF86Sleep" "Suspend system" "systemctl suspend" \
   "SUPER Delete" "Exit Hyprland session" "exit" \
   "SUPER W" "Toggle floating window" "togglefloating" \
   "SUPER SHIFT G" "Toggle window group" "togglegroup" \
   "ALT Return" "Toggle fullscreen" "fullscreen" \
-  "SUPER ALT L" "Lock screen" "hyprlock" \
-  "SUPER Backspace" "Power menu" "wlogout -b 4" \
+  "SUPER ALT L" "Lock screen" "hyprctl dispatch global caelestia:lock" \
+  "SUPER Backspace" "Power menu" "pkill -x wlogout || wlogout -b 4" \
   "CTRL Escape" "Toggle Waybar" "pkill waybar || waybar" \
   "SUPER SHIFT N" "Open notification panel" "swaync-client -t -sw" \
   "SUPER SHIFT Q" "Open notification panel" "swaync-client -t -sw" \
   "SUPER Q" "Close active window" "scripts/dontkillsteam.sh" \
   "ALT F4" "Close active window" "scripts/dontkillsteam.sh" \
-  "SUPER Z" "Launch emoji picker" "scripts/rofi.sh emoji" \
+  "SUPER Z" "Launch emoji picker" "pkill -x rofi || scripts/rofi.sh emoji" \
   "SUPER ALT K" "Change keyboard layout" "scripts/keyboardswitch.sh" \
   "SUPER U" "Rebuild system" "$_terminal -e scripts/rebuild.sh" \
   "SUPER G" "Game launcher" "scripts/rofi.sh games" \
   "SUPER ALT G" "Enable game mode" "scripts/gamemode.sh" \
   "SUPER V" "Clipboard manager" "scripts/ClipManager.sh" \
-  "SUPER M" "Online music" "scripts/rofimusic.sh" \
+  "SUPER M" "Online music" "pkill -x rofi || scripts/rofimusic.sh" \
   "SUPER P" "Screenshot (select area)" "scripts/screenshot.sh s" \
   "SUPER CTRL P" "Screenshot (frozen screen)" "scripts/screenshot.sh sf" \
   "SUPER Print" "Screenshot (current monitor)" "scripts/screenshot.sh m" \
@@ -92,7 +96,22 @@ yad \
   "SUPER SHIFT CTRL →" "Move window right" "movewindow r" \
   "SUPER SHIFT CTRL ↑" "Move window up" "movewindow u" \
   "SUPER SHIFT CTRL ↓" "Move window down" "movewindow d" \
+  "SUPER SHIFT CTRL H" "Move window left (HJKL)" "movewindow l" \
+  "SUPER SHIFT CTRL L" "Move window right (HJKL)" "movewindow r" \
+  "SUPER SHIFT CTRL K" "Move window up (HJKL)" "movewindow u" \
+  "SUPER SHIFT CTRL J" "Move window down (HJKL)" "movewindow d" \
+  "SUPER CTRL ALT →" "Move window to next workspace" "movewindow r+1" \
+  "SUPER CTRL ALT ←" "Move window to previous workspace" "movewindow r-1" \
+  "SUPER, Scroll Down" "Next workspace (scroll)" "workspace e+1" \
+  "SUPER, Scroll Up" "Previous workspace (scroll)" "workspace e-1" \
+  "SUPER, Mouse4" "Switch to workspace 5" "workspace 5" \
+  "SUPER, Mouse5" "Switch to workspace 6" "workspace 6" \
+  "SUPER SHIFT, Mouse4" "Move window to workspace 5" "movewindow 5" \
+  "SUPER SHIFT, Mouse5" "Move window to workspace 6" "movewindow 6" \
+  "SUPER CTRL, Mouse4" "Silently move window to workspace 5" "movetoworkspacesilent 5" \
+  "SUPER CTRL, Mouse5" "Silently move window to workspace 6" "movetoworkspacesilent 6" \
   "SUPER CTRL S" "Move to scratchpad" "movetoworkspacesilent special" \
+  "SUPER ALT S" "Move to scratchpad (alt)" "movetoworkspacesilent special" \
   "SUPER S" "Toggle scratchpad workspace" "togglespecialworkspace" \
   "SUPER Tab" "Cycle next window" "cyclenext" \
   "SUPER Tab" "Bring active window to top" "bringactivetotop" \
@@ -106,4 +125,4 @@ yad \
   "ALT Tab" "Move focus down" "movefocus d" \
   "SUPER 1-0" "Switch to workspace 1-10" "workspace 1-10" \
   "SUPER SHIFT 1-0" "Move to workspace 1-10" "movetoworkspace 1-10" \
-  "SUPER SHIFT 1-0" "Silently move to workspace 1-10" "movetoworkspacesilent 1-10" \
+  "SUPER CTRL 1-0" "Silently move to workspace 1-10" "movetoworkspacesilent 1-10" \
