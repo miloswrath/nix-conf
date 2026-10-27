@@ -91,6 +91,12 @@ in {
   "${mod}+slash" = "layout stacking";
   "${mod}+apostrophe" = "layout tabbed";
   "${mod}+semicolon" = "layout toggle split";
+  # open the following file in Brave Fullscreen:
+  #/home/zak/personal/pics/nikon/chi-aug-26/DSCN0451.JPG
+  "${mod}+Shift+semicolon" = ''
+    exec --no-startup-id ${pkgs.brave}/bin/brave --start-fullscreen \
+      "file:///home/zak/personal/pics/nikon/chi-aug-26/DSCN0451.JPG"
+  '';
 
   # Toggle tiling / floating
   "${mod}+Shift+space" = "floating toggle";

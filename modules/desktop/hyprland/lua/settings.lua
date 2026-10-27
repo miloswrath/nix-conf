@@ -100,9 +100,12 @@ hl.config({
 		},
 	},
 	render = {
-		-- Disabled: direct scanout bypasses the compositor, breaking PipeWire screen capture.
-		-- Re-enable with `hyprctl keyword render:direct_scanout 2` when not streaming.
-		direct_scanout = 0,
+		-- 2 = auto: direct scanout only for fullscreen windows advertising content
+		-- type "game". Desktop and normal windows still composite normally, so
+		-- PipeWire screen capture keeps working; only a fullscreen game bypasses
+		-- it (while streaming one, `hyprctl keyword render:direct_scanout 0`).
+		-- 0 here forced every game frame through an extra full-screen composite.
+		direct_scanout = 2,
 	},
 	ecosystem = {
 		no_update_news  = true,
@@ -113,7 +116,13 @@ hl.config({
 		mouse_move_focuses_monitor = true,
 		swallow_regex              = "^(Alacritty|kitty)$",
 		enable_swallow             = true,
-		vrr = 0,
+
+		-- 2 = fullscreen only. The XG27ACDNG is a 360Hz G-Sync OLED; at a fixed
+		-- refresh any frame that misses its 2.78ms slot waits a whole extra
+		-- interval, which is what the in-game hitching was. Scoped to fullscreen
+		-- so the desktop stays at fixed refresh (variable frame rates on an OLED
+		-- cause brightness flicker).
+		vrr = 2,
 	},
 	debug = {
 		vfr = false,

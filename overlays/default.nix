@@ -19,13 +19,13 @@
 
     # Pin a stable nixpkgs set (usable as final.stable.<pkg>)
     stable = import inputs.nixpkgs-stable {
-      system = final.system;
+      system = final.stdenv.hostPlatform.system;
       config = {allowUnfree = true;};
     };
 
     # Keep an explicit unstable package set available and source Qt from it.
     unstable = import inputs.nixpkgs {
-      system = final.system;
+      system = final.stdenv.hostPlatform.system;
       config = {allowUnfree = true;};
     };
 
@@ -48,21 +48,5 @@
       inherit final settings inputs;
     };
 
-    # nixpkgs bumped glaze 7.9.1 -> 8.0.0 (PR #548864), but Hyprland's
-    # CMakeLists still pins `find_package(glaze 7...<8)`, so the build can't
-    # find the packaged glaze and falls back to a network FetchContent that
-    # fails in the sandbox. Fixed upstream via nixpkgs PR #549253 (relaxes the
-    # version constraint), but that hasn't reached the nixos-unstable channel
-    # yet. Pin glaze back to the last version satisfying `7...<8` until
-    # `nix flake update` picks up the fix, then remove this override.
-    glaze = prev.glaze.overrideAttrs (_old: {
-      version = "7.9.1";
-      src = final.fetchFromGitHub {
-        owner = "stephenberry";
-        repo = "glaze";
-        tag = "v7.9.1";
-        hash = "sha256-NRRq5MGF2f5PW0teYnq58ELzson+U6KHVPaY6r30KLA=";
-      };
-    });
   };
 }

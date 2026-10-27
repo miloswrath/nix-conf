@@ -82,7 +82,7 @@
           EmoteCloner.enabled = true;
           Experiments.enabled = true;
           F8Break.enabled = false;
-          FakeNitro.enabled = true;
+          #FakeNitro.enabled = true;
           FakeProfileThemes.enabled = false;
           FavoriteEmojiFirst.enabled = false;
           FavoriteGifSearch.enabled = false;

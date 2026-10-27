@@ -58,14 +58,25 @@ hl.bind(mainMod .. " + T",         hl.dsp.exec_cmd(term))
 hl.bind(mainMod .. " + E",         hl.dsp.exec_cmd(fileManager))
 hl.bind(mainMod .. " + C",         hl.dsp.exec_cmd(editor))
 hl.bind(mainMod .. " + F",         hl.dsp.exec_cmd(browser))
+
+-- TORY PHOTOSSSSS
+hl.bind(mainMod .. " + SHIFT + semicolon", hl.dsp.exec_cmd(
+	"brave --new-window --start-fullscreen 'file:///home/zak/personal/pics/nikon/chi-aug-26/DSCN0451.JPG'"
+))
+hl.bind(mainMod .. " + SHIFT + comma", hl.dsp.exec_cmd(
+	"brave --new-window --start-fullscreen 'file:///home/zak/personal/pics/nikon/chi-aug-26/DSCN0416.JPG'"
+))
+
 hl.bind(mainMod .. " + SHIFT + S", hl.dsp.exec_cmd("spotify"))
 hl.bind(mainMod .. " + SHIFT + Y", hl.dsp.exec_cmd("youtube-music"))
 hl.bind("CTRL + ALT + DELETE",     hl.dsp.exec_cmd(term .. " -e btop"))
 hl.bind(mainMod .. " + CTRL + C",  hl.dsp.exec_cmd("hyprpicker --autocopy --format=hex"))
 
 -- Launchers
+-- Single press-bind only. caelestia:launcher is a toggle, so a matching
+-- release-bind would immediately close it again. launcherInterrupt/submap are
+-- only needed for the bare Super_L binding, not for a MOD+KEY bind.
 hl.bind(mainMod .. " + A",         hl.dsp.global("caelestia:launcher"))
-hl.bind(mainMod .. " + A",         hl.dsp.global("caelestia:launcher"), { release = true })
 hl.bind(mainMod .. " + SPACE",     hl.dsp.exec_cmd("pkill -x rofi || " .. rofi_script .. " drun"))
 hl.bind(mainMod .. " + Z",         hl.dsp.exec_cmd("pkill -x rofi || " .. rofi_script .. " emoji"))
 hl.bind(mainMod .. " + ALT + K",   hl.dsp.exec_cmd(keyboardswitch))
@@ -87,7 +98,7 @@ hl.bind(mainMod .. " + U", hl.dsp.exec_cmd(term .. " -e " .. rebuild))
 
 -- Cycle windows + bring to top
 hl.bind(mainMod .. " + Tab", hl.dsp.window.cycle_next())
-hl.bind(mainMod .. " + Tab", hl.dsp.exec_cmd("hyprctl dispatch bringactivetotop"))
+hl.bind(mainMod .. " + Tab", hl.dsp.window.bring_to_top())
 
 -- Focus
 hl.bind(mainMod .. " + left",  hl.dsp.focus({ direction = "l" }))

@@ -51,7 +51,7 @@
       };
       home.username = username;
       home.homeDirectory =
-        if pkgs.stdenv.isDarwin
+        if pkgs.stdenv.hostPlatform.isDarwin
         then "/Users/${username}"
         else "/home/${username}";
       home.stateVersion = "23.11"; # Please read the comment before changing.
@@ -105,8 +105,17 @@
   services.resolved.enable = true;
   services.seatd.enable = true;
 
+  # Disabled 2026-08-27: scx_lavd 1.1.3 starves runnable tasks on kernel 7.2.0,
+  # freezing Chromium/Electron apps. The kernel watchdog caught a Chromium
+  # "Compositor" thread that failed to run for 38.8s, plus a 21s RCU stall;
+  # scx.service crash-restarted 7 times on Aug 25 and twice on Aug 27.
+  # libbpf drops lavd anti-starvation ops (rescue_bandwidth_ppt,
+  # rescue_quantum_us) as "not found in kernel" -- scx 1.1.3 expects a
+  # sched_ext ABI this kernel does not provide.
+  # With this off the kernel default (EEVDF) is used. To retry sched_ext later,
+  # flip enable back on and prefer a different scheduler, e.g. scx_bpfland.
   services.scx = {
-    enable = true;
+    enable = false;
     package = pkgs.scx.rustscheds;
     scheduler = "scx_lavd"; # https://github.com/sched-ext/scx/blob/main/scheds/rust/README.md
   };
@@ -173,6 +182,11 @@
     #sudo.wheelNeedsPassword = false;
   };
 
+  zramSwap = {
+    enable = true;
+    memoryPercent = 50;   # size of the zram device, as % of RAM (15 GiB here)
+    priority = 100;       # higher priority than disk swap, so it's used first
+  };
   # Enable dconf for home-manager
   programs.dconf.enable = true;
 

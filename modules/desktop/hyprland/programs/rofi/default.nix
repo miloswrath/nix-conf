@@ -11,7 +11,7 @@
       in {
         enable = true;
         package = pkgs.rofi;
-        terminal = "${getExe pkgs.${terminal}}";
+        settings.terminal = "${getExe pkgs.${terminal}}";
         plugins = with pkgs; [
           rofi-emoji # https://github.com/Mange/rofi-emoji 🤯
           rofi-games # https://github.com/Rolv-Apneseth/rofi-games 🎮

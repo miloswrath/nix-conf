@@ -49,9 +49,11 @@
     ../../modules/programs/misc/thunar
     ../../modules/programs/misc/lact # GPU fan, clock and power configuration
     ../../modules/programs/misc/nix-ld
-    # ../../modules/programs/misc/virt-manager
+    ../../modules/programs/misc/virt-manager
     ../../modules/programs/misc/calcurse
     #../../modules/programs/misc/openconnect-sso
+    ../../modules/programs/misc/tds
+    ../../modules/programs/misc/glance # local dashboard on :8080
   ];
 
   # Home-manager config
@@ -66,11 +68,10 @@
         codex
         claude-code
         obsidian
-        zotero
         brave
         #monero-gui
         proton-vpn
-        libreoffice-qt-fresh
+        libreoffice-qt-stable
         devenv
         pi-coding-agent
         ani-cli
@@ -248,9 +249,10 @@
       log_level = "error";
     };
   };
-  virtualisation.docker = {
-    enable = true;
-  };
+   virtualisation.docker = {
+     enable = true;
+     enableOnBoot = false;
+   };
   users.users.zak.extraGroups = [ "docker" ];
   users.users.minidlna = {
     extraGroups = ["users"]; # so minidlna can access the files.

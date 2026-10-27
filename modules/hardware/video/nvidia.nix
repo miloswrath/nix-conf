@@ -42,8 +42,12 @@ in {
       };
       graphics = {
         enable = true;
-        package = nvidiaDriverChannel;
-      #package = pkgs.linuxPackages_latest.nvidiaPackages.latest;
+        # Do NOT set `package` here: it defaults to `lib.mkDefault pkgs.mesa`
+        # and is the *default driver set*, not the GPU driver. Overriding it
+        # with the NVIDIA driver wipes Mesa out of /run/opengl-driver (no
+        # libgbm/libGL/libva/DRI), which breaks VA-API and the AMD iGPU.
+        # The NVIDIA driver is injected via hardware.graphics.extraPackages
+        # by the nixpkgs nvidia module; hardware.nvidia.package above selects it.
         enable32Bit = true;
         extraPackages = with pkgs; [
           nvidia-vaapi-driver
@@ -69,7 +73,9 @@ in {
       ];
   };
   nix.settings = {
-    substituters = ["https://cuda-maintainers.cachix.org"];
-    trusted-public-keys = ["cuda-maintainers.cachix.org-1:0dq3bujKpuEPMCX6U4WylrUDZ9JyUG0VpVZa7CNfq5E="];
+    substituters = ["https://cache.nixos-cuda.org"];
+    trusted-public-keys = [
+      "cache.nixos-cuda.org:74DUi4Ye579gUqzH4ziL9IyiJBlDpMRn9MBN8oNan9M="
+    ];
   };
 }
