@@ -37,7 +37,8 @@
     (_: {
       programs.mangohud = {
         enable = true;
-        enableSessionWide = true;
+        # Session-wide injection crashes quickshell (caelestia) in vkCreateDevice; use `mangohud <app>` instead
+        enableSessionWide = false;
         settingsPerApplication = {
           mpv = {
             no_display = true;

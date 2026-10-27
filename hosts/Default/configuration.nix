@@ -53,6 +53,7 @@
     ../../modules/programs/misc/calcurse
     #../../modules/programs/misc/rstudio
     ../../modules/programs/misc/openconnect-sso
+    ../../modules/programs/misc/tds
   ];
 
   nixpkgs.config.allowUnfree = true;
@@ -60,12 +61,19 @@
   home-manager.useGlobalPkgs = true;
   home-manager.sharedModules = [
     inputs.caelestia-shell.homeManagerModules.default
-    (_: {
+    (_: let
+      # Upstream sets SETUPTOOLS_SCM_PRETEND_VERSION as a derivation attr, which is not exported
+      # as an env var under structuredAttrs, so hatch-vcs fails without a git checkout.
+      caelestia-cli = inputs.caelestia-shell.inputs.caelestia-cli.packages.${pkgs.stdenv.hostPlatform.system}.default.overrideAttrs {
+        preBuild = "export SETUPTOOLS_SCM_PRETEND_VERSION=1";
+      };
+    in {
       home.packages = with pkgs; [
         # pokego # Overlayed
         # krita
         # gimp
         obsidian
+        bitwarden-desktop
         brave
         gnome-network-displays
         proton-vpn
@@ -78,9 +86,15 @@
         monero-gui
         parted
         efibootmgr
+
+        logiops
       ];
       programs.caelestia = {
         enable = true;
+        package = inputs.caelestia-shell.packages.${pkgs.stdenv.hostPlatform.system}.default.override {
+          withCli = true;
+          inherit caelestia-cli;
+        };
         systemd = {
           enable = true;
           target = "graphical-session.target";
@@ -94,6 +108,7 @@
         };
         cli = {
           enable = true;
+          package = caelestia-cli;
           settings = {
             theme.enableGtk = false;
           };

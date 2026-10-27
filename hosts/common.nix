@@ -52,7 +52,7 @@
       };
       home.username = username;
       home.homeDirectory =
-        if pkgs.stdenv.isDarwin
+        if pkgs.stdenv.hostPlatform.isDarwin
         then "/Users/${username}"
         else "/home/${username}";
       home.stateVersion = "23.11"; # Please read the comment before changing.
@@ -79,7 +79,6 @@
       # Packages that don't require configuration. If you're looking to configure a program see the /modules dir
       home.packages = with pkgs; [
         # Applications
-        zotero # note taking and reference management
         #kate
         # netowrking
 
@@ -249,10 +248,15 @@
           bluetooth.autoswitch-to-headset-profile = false
         '')
         # SIMGOT EW300 DSP is a full-speed (USB 1.1) ADAPTIVE-mode USB Audio Class
-        # dongle with almost no onboard buffering. The global 92-low-latency
-        # 256-sample graph quantum (set above) starves it and causes audible
-        # buzz/crackle under scheduling jitter, so give it a bigger ALSA-side
-        # period/headroom without touching the global low-latency quantum.
+        # dongle with almost no onboard buffering and no real hw pointer register.
+        # The global 92-low-latency 256-sample graph quantum (set above) starves
+        # it under scheduling jitter (buzz/crackle), and PipeWire's default
+        # timer-based mmap position estimation drifts against this device's
+        # jittery reported pointer, which the clock-drift compensator "corrects"
+        # by continuously speeding up/slowing down playback (audible pitch
+        # bending on long clips). Give it a bigger ALSA-side period/headroom and
+        # force plain interrupt-driven IO (disable mmap/batch) instead of
+        # touching the global low-latency quantum.
         (pkgs.writeTextDir "share/wireplumber/wireplumber.conf.d/51-simgot-ew300-alsa.conf" ''
           monitor.alsa.rules = [
             {
@@ -263,6 +267,8 @@
                 update-props = {
                   api.alsa.period-size   = 1024
                   api.alsa.headroom      = 8192
+                  api.alsa.disable-mmap  = true
+                  api.alsa.disable-batch = true
                 }
               }
             }
