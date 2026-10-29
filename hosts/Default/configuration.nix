@@ -74,7 +74,6 @@
         libreoffice-qt-stable
         devenv
         pi-coding-agent
-        ani-cli
       ];
       programs.caelestia = {
         enable = true;
