@@ -77,9 +77,10 @@
         brave
         gnome-network-displays
         proton-vpn
-        claude-code
         zoom-us
         pi-coding-agent
+        claude-code
+        cursor-cli
 
         tor
         tor-browser
@@ -89,6 +90,10 @@
 
         logiops
       ];
+
+      # enable cursor, the old fashioned way
+      programs.cursor.enable = true;
+
       programs.caelestia = {
         enable = true;
         package = inputs.caelestia-shell.packages.${pkgs.stdenv.hostPlatform.system}.default.override {
