@@ -27,7 +27,7 @@
 
       qt = {
         enable = true;
-        platformTheme.name = "gtk"; # gnome
+        platformTheme.name = "gtk3"; # gnome
         #platformTheme = "gnome";
         #style = {
         #  name = "adwaita-dark";
