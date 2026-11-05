@@ -221,7 +221,8 @@
 
   services.fwupd.enable = true; # Enable firmware updates via fwupd
   services.fprintd.enable = lib.mkDefault true;
-  # we need fwupd 1.9.7 to downgrade the fingerprint sensor firmware
+  # pam_fprintd blocks the greeter until a scan or timeout, so keep it password-only
+  security.pam.services.sddm.fprintAuth = false;
   services.xserver = {
     enable = true; # Enable the X11 windowing system.
   };
