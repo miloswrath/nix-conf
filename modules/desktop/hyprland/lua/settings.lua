@@ -26,13 +26,9 @@ hl.on("hyprland.start", function()
 	hl.exec_cmd("hash dbus-update-activation-environment 2>/dev/null && dbus-update-activation-environment --systemd --all")
 	hl.exec_cmd("systemctl --user start hyprland-session.target")
 	hl.exec_cmd("nm-applet --indicator")
-	hl.exec_cmd("wl-clipboard-history -t")
 	hl.exec_cmd(wl_paste .. " --type text --watch cliphist store")
 	hl.exec_cmd(wl_paste .. " --type image --watch cliphist store")
-	hl.exec_cmd("rm '$XDG_CACHE_HOME/cliphist/db'")
 	hl.exec_cmd(batterynotify)
-	hl.exec_cmd("polkit-agent-helper-1")
-	hl.exec_cmd("pamixer --set-volume 50")
 end)
 
 hl.config({

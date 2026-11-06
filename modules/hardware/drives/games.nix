@@ -9,6 +9,9 @@
       "noatime"
       "umask=000"
       "nofail"
+      # Mount only on access; absent external disks must not delay startup.
+      "x-systemd.automount"
+      "x-systemd.device-timeout=5s"
       "x-gvfs-show"
       "x-systemd.mount-timeout=5"
     ];

@@ -48,12 +48,13 @@
     #../../modules/programs/misc/tlp
     ../../modules/programs/misc/thunar
     #../../modules/programs/misc/lact # GPU fan, clock and power configuration
-     ../../modules/programs/misc/nix-ld
+    ../../modules/programs/misc/nix-ld
     ../../modules/programs/misc/virt-manager
     ../../modules/programs/misc/calcurse
     #../../modules/programs/misc/rstudio
     ../../modules/programs/misc/openconnect-sso
     ../../modules/programs/misc/tds
+    ../../modules/programs/misc/glance
   ];
 
   nixpkgs.config.allowUnfree = true;
@@ -109,7 +110,7 @@
           bar.status = {
             showBattery = true;
           };
-        paths.wallpaperDir = "~/NixOS/modules/themes/wallpapers-ca";
+          paths.wallpaperDir = "~/NixOS/modules/themes/wallpapers-ca";
         };
         cli = {
           enable = true;
@@ -159,8 +160,8 @@
   networking = {
     hostName = hostname;
 
-    firewall.allowedTCPPorts = [ 2049 3306 5173 8088 ]; # NFS
-    firewall.allowedUDPPorts = [ 2049 5173 8088 ];
+    firewall.allowedTCPPorts = [3306 5173 8088];
+    firewall.allowedUDPPorts = [5173 8088];
 
     networkmanager.wifi.scanRandMacAddress = false;
     networkmanager.plugins = [
@@ -168,47 +169,13 @@
       pkgs.networkmanager-openvpn
     ];
   };
-  services.samba = {
-    enable = true;
-    settings = {
-      public = {
-        path = "/srv/shared";
-        browseable = true;
-        "read only" = false;
-        "guest ok" = true;
-      };
-    };
-  };
+  # No local shares or media library are configured on this laptop.
+  services.samba.enable = false;
+  services.nfs.server.enable = false;
+  services.minidlna.enable = false;
   services.upower.enable = true;
-  # Enable NFS server
-  services.nfs.server.enable = true;
-
-  # Export your desired directory
-  services.nfs.server.exports = ''
-    /srv/shared 192.168.1.0/24(rw,sync,no_subtree_check,no_root_squash)
-  '';
-  # Stream my media to my devices via the network
-  services.minidlna = {
-    enable = true;
-    openFirewall = true;
-    settings = {
-      friendly_name = "NixOS-DLNA-Laptop";
-      media_dir = [
-        # Add files that are either media or not git tracked here
-        # A = Audio, P = Pictures, V, = Videos, PV = Pictures and Videos.
-        # "A,/mnt/dlna/music"
-
-      ];
-      inotify = "yes";
-      log_level = "error";
-    };
-  };
   # virtualisation.docker = {
   #   enable = true;
   # };
-  users.users.zak.extraGroups = [ "docker" ];
-  users.users.minidlna = {
-    extraGroups = ["users"]; # so minidlna can access the files.
-  };
-
+  users.users.zak.extraGroups = ["docker"];
 }

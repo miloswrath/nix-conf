@@ -4,11 +4,10 @@
   # virt-manager
   programs.virt-manager.enable = true;
 
-  services = {
-    qemuGuest.enable = true;
-    spice-vdagentd.enable = true;
-    spice-webdavd.enable = true;
-  };
+  # Guest agents belong inside virtual machines, not on this physical host.
+  services.qemuGuest.enable = false;
+  services.spice-vdagentd.enable = false;
+  services.spice-webdavd.enable = false;
 
   # packages
   environment.systemPackages = with pkgs; [
@@ -16,7 +15,6 @@
     spice
     spice-gtk
     spice-protocol
-    spice-vdagent
     virtio-win
     win-spice
   ];

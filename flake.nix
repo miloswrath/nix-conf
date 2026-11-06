@@ -41,6 +41,10 @@
       url = "github:caelestia-dots/shell";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    silentSDDM = {
+      url = "github:uiriansan/SilentSDDM";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = {
@@ -56,7 +60,7 @@
       browser = "brave"; # firefox, floorp, zen
       terminal = "kitty"; # kitty, alacritty, wezterm
       terminalFileManager = "yazi"; # yazi or lf
-      sddmTheme = "purple_leaves"; # astronaut, black_hole, purple_leaves, jake_the_dog, hyprland_kath
+      sddmTheme = "rei"; # SilentSDDM: default, rei, ken, silvia, nord, gruvbox, everforest, catppuccin-*, eldritch-*
       wallpaper = "forest-city"; # see modules/themes/wallpapers
 
       # System configuration

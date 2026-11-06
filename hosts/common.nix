@@ -11,12 +11,14 @@
   kbdLayout,
   kbdVariant,
   consoleKeymap,
+  sddmTheme,
   self,
   ...
 }: {
   imports = [
     inputs.home-manager.nixosModules.home-manager
     inputs.nix-index-database.nixosModules.nix-index
+    inputs.silentSDDM.nixosModules.default
     ../modules/hardware/audio
   ];
 
@@ -96,7 +98,6 @@
         ripgrep
         tldr
         unzip
-
       ];
     };
   };
@@ -114,7 +115,6 @@
     package = pkgs.scx.rustscheds;
     scheduler = "scx_lavd"; # https://github.com/sched-ext/scx/blob/main/scheds/rust/README.md
   };
-
 
   # Bootloader.
   boot = {
@@ -197,25 +197,39 @@
     wireless.enable = true;
   };
 
-  # Enable sddm login manager
-  services.displayManager = {
-    sddm = {
+  # Enable sddm login manager with the SilentSDDM theme (sets theme, Qt deps and fonts)
+  # Preview the greeter without logging out by running `test-sddm-silent`
+  programs.silentSDDM = {
+    enable = true;
+    theme = sddmTheme;
+    wayland = {
       enable = true;
-      wayland.enable = true;
-      enableHidpi = true;
-      package = pkgs.kdePackages.sddm;
-      theme = "sddm-astronaut-theme";
-      settings.Theme.CursorTheme = "Bibata-Modern-Classic";
-      extraPackages = with pkgs; [
-        kdePackages.qtmultimedia
-        kdePackages.qtsvg
-        kdePackages.qtvirtualkeyboard
-      ];
+      compositor = "kwin";
     };
+    # SDDM's Qt can't decode JPEG XL, so convert fog.jxl back to PNG
+    backgrounds.fog = pkgs.runCommand "fog.png" {nativeBuildInputs = [pkgs.libjxl];} ''
+      djxl ${../modules/themes/wallpapers/fog.jxl} $out
+    '';
+    settings = {
+      General = {
+        # KWin auto-scales the greeter to 2.0 on the 2880x1920 panel; 0.625 matches Hyprland's 1.25
+        scale = 0.625;
+        # fill keeps the aspect ratio and crops the 2.35:1 image to the 3:2 panel
+        background-fill-mode = "fill";
+      };
+      LockScreen.background = "fog.png";
+      LoginScreen.background = "fog.png";
+    };
+  };
+  services.displayManager.sddm = {
+    enableHidpi = true;
+    settings.Theme.CursorTheme = "Bibata-Modern-Classic";
   };
 
   # Setup keyring
   services.gnome.gnome-keyring.enable = true;
+  # GnuPG already provides the session's SSH agent via SSH_AUTH_SOCK.
+  services.gnome.gcr-ssh-agent.enable = false;
 
   # Enable CUPS to print documents.
 
@@ -272,10 +286,6 @@
     lm_sensors
     jq
     bibata-cursors
-    sddm-astronaut # Overlayed
-    pkgs.kdePackages.qtsvg
-    pkgs.kdePackages.qtmultimedia
-    pkgs.kdePackages.qtvirtualkeyboard
     # libsForQt5.qt5.qtgraphicaleffects
 
     # devenv

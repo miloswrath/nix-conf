@@ -6,8 +6,11 @@
       "defaults" # Default flags
       "async" # Run all operations async
       "nofail" # Don't error if not plugged in
+      # Mount only on access; absent external disks must not delay startup.
+      "x-systemd.automount"
+      "x-systemd.device-timeout=5s"
       "x-gvfs-show" # Show in file explorer
-      "x-systemd.mount-timeout=5" # Timout for error
+      "x-systemd.mount-timeout=5" # Limit the mount command separately
       "X-mount.mkdir" # Make dir if it doesn't exist
     ];
   };
