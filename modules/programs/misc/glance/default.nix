@@ -16,6 +16,21 @@ in {
         port = 8280;
       };
 
+      # Glance never refreshes on its own; widgets only refetch when the page is requested
+      # and their cache has expired. Reload hourly, but only while the tab is visible, and
+      # as soon as the network comes back (e.g. after a captive portal).
+      document.head = ''
+        <script>
+          (() => {
+            const due = Date.now() + 60 * 60 * 1000;
+            const tick = () => { if (Date.now() >= due && !document.hidden) location.reload(); };
+            setInterval(tick, 60 * 1000);
+            document.addEventListener("visibilitychange", tick);
+            window.addEventListener("online", () => location.reload());
+          })();
+        </script>
+      '';
+
       # Catppuccin Mocha (HSL): base bg, mauve accent to match gtk catppuccin-mocha-mauve, green/red
       theme = {
         background-color = "240 21 15";
@@ -123,7 +138,7 @@ in {
                     {
                       type = "rss";
                       title = "AI";
-                      cache = "3h";
+                      cache = "1h";
                       limit = 20;
                       collapse-after = 6;
                       feeds = [
@@ -137,7 +152,7 @@ in {
                     {
                       type = "rss";
                       title = "Linux / Nix";
-                      cache = "3h";
+                      cache = "1h";
                       limit = 20;
                       collapse-after = 6;
                       feeds = [
@@ -150,7 +165,7 @@ in {
                     {
                       type = "rss";
                       title = "Tech";
-                      cache = "2h";
+                      cache = "1h";
                       limit = 20;
                       collapse-after = 6;
                       feeds = [
@@ -162,7 +177,7 @@ in {
                     {
                       type = "rss";
                       title = "Distribution";
-                      cache = "3h";
+                      cache = "1h";
                       limit = 20;
                       collapse-after = 6;
                       feeds = [
@@ -177,7 +192,7 @@ in {
                     {
                       type = "rss";
                       title = "Palantir / FDE";
-                      cache = "3h";
+                      cache = "1h";
                       limit = 20;
                       collapse-after = 6;
                       feeds = [
@@ -207,7 +222,7 @@ in {
               widgets = [
                 {
                   type = "releases";
-                  cache = "6h";
+                  cache = "1h";
                   show-source-icon = true;
                   collapse-after = 6;
                   repositories = [
@@ -226,18 +241,17 @@ in {
                 {
                   type = "rss";
                   title = "Upstream commits";
-                  cache = "6h";
+                  cache = "1h";
                   limit = 10;
                   collapse-after = 4;
                   feeds = [
                     {
-                      url = "https://github.com/miloswrath/nix-conf";
-                      title = "nix-conf";
-
-                    }
-                    {
                       url = "https://github.com/miloswrath/nixvim-but-worse/commits/master.atom";
                       title = "nixvim-but-worse";
+                    }
+                    {
+                      url = "https://github.com/miloswrath/nix-conf/commits/main.atom";
+                      title = "nix-conf";
                     }
                   ];
                 }
